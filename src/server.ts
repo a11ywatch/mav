@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  **/
 
-import "@tensorflow/tfjs-node-gpu";
+import '@tensorflow/tfjs-node';
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -12,7 +12,11 @@ import { log, setConfig as setLogConfig } from "@a11ywatch/log";
 import { config, corsOptions, logServerInit } from "./config";
 import { aiModels, detectImageModel } from "./ai";
 
-setLogConfig({ container: "mav" });
+try {
+  setLogConfig({ container: "mav" });
+} catch(e) {
+  console.error(e)
+}
 
 const app = express();
 

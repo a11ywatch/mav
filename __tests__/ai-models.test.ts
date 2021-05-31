@@ -1,4 +1,4 @@
-import "@tensorflow/tfjs-node-gpu";
+import '@tensorflow/tfjs-node';
 import { aiModels } from "../src/ai";
 import { LOADED_MODELS } from "../src/static";
 

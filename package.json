@@ -1,7 +1,6 @@
 {
   "name": "mav",
   "version": "0.1.0",
-  "private": true,
   "description": "ai for generating accessibility fixes",
   "main": "./dist/server.js",
   "scripts": {

@@ -6,7 +6,6 @@
 
 import { createCanvas, Image } from "canvas";
 import type { Canvas } from "canvas";
-import { log } from "@a11ywatch/log";
 
 export const getImage = async (
   imageBase64: string,
@@ -35,7 +34,7 @@ export const getImage = async (
       img.src = imageBase64;
     });
   } catch (e) {
-    log(e, { type: "error", container: "mav" });
+    console.error(e);
     return null;
   }
 };

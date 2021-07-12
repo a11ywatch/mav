@@ -4,7 +4,7 @@
  * LICENSE file in the root directory of this source tree.
  **/
 
-import '@tensorflow/tfjs-node';
+import "@tensorflow/tfjs-node";
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";
@@ -14,8 +14,8 @@ import { aiModels, detectImageModel } from "./ai";
 
 try {
   setLogConfig({ container: "mav" });
-} catch(e) {
-  console.error(e)
+} catch (e) {
+  console.error(e);
 }
 
 const app = express();
@@ -24,12 +24,12 @@ app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: "500mb", extended: true }));
 
 app
-  .get("/", (req, res) => {
+  .get("/", (_req, res) => {
     res.json({
       server_status: "online",
     });
   })
-  .post("/api/clear", (req, res, next) => {
+  .post("/api/clear", (_req, res, next) => {
     try {
       aiModels.clearModels();
       res.send(true);
@@ -38,7 +38,7 @@ app
       next();
     }
   })
-  .post("/api/init", async (req, res, next) => {
+  .post("/api/init", async (_req, res, next) => {
     try {
       await aiModels.initModels();
       res.send(true);

@@ -21,6 +21,10 @@ export const detectImageModel = async (
 
   let predictions = [];
 
+  if (!canv) {
+    return null;
+  }
+
   try {
     const mobileNetModel = await aiModels.initMobileNet(1);
 

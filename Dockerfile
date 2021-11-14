@@ -1,7 +1,17 @@
-FROM jeffmendez19/tensorflow-node-gpu as stage
+FROM tensorflow/tensorflow:latest-devel
 
 WORKDIR /usr/src/app
 
+RUN apt-get update && \ 
+	apt-get install -y build-essential \
+	wget \
+	npm \
+	bash \
+	python3 \
+	make \
+	gcc \ 
+	libc6-dev 
+    
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
 RUN apt-get install -y nodejs
 
@@ -12,13 +22,5 @@ RUN npm ci
 COPY . .
 
 RUN  npm run build
-
-FROM jeffmendez19/tensorflow-node-gpu
-
-WORKDIR /usr/src/app
-
-COPY --from=stage /usr/src/app/dist ./dist
-COPY --from=stage /usr/src/app/node_modules ./node_modules
-COPY --from=stage /usr/bin/node /usr/bin/node
 
 CMD [ "/usr/bin/node", "./dist/server.js"]

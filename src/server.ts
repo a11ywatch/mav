@@ -12,11 +12,7 @@ import { log, setConfig as setLogConfig } from "@a11ywatch/log";
 import { config, corsOptions, logServerInit } from "./config";
 import { aiModels, detectImageModel } from "./ai";
 
-try {
-  setLogConfig({ container: "mav" });
-} catch (e) {
-  console.error(e);
-}
+setLogConfig({ container: "mav" });
 
 const app = express();
 

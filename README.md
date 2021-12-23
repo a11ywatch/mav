@@ -8,6 +8,10 @@ AI and machine learning to declare alts, spacing, and more. Checkout [docs](http
 
 if using this service in a docker env make sure to create a .env file and add the env var DOCKER_ENV=true
 
+## M1
+
+If your on an m1 you need to run `brew install pkg-config cairo pango libpng jpeg giflib librsvg` in order for canvas to have the correct libs.
+
 ## Installation
 
 ```

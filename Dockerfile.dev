@@ -8,9 +8,16 @@ RUN apt-get update && \
 	npm \
 	bash \
 	python3 \
+    pkg-config \
 	make \
 	gcc \ 
-	libc6-dev 
+    libpixman-1-dev \
+	libc6-dev \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libjpeg-dev \
+    libgif-dev \
+    librsvg2-dev
 
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
 RUN apt-get install -y nodejs

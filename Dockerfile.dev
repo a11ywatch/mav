@@ -1,11 +1,11 @@
-FROM tensorflow/tensorflow:latest-devel
+FROM node:17-buster-slim
 
 WORKDIR /usr/src/app
 
+# todo MULTI STAGE BUILD
 RUN apt-get update && \ 
 	apt-get install -y build-essential \
 	wget \
-	npm \
 	bash \
 	python3 \
     pkg-config \
@@ -19,9 +19,6 @@ RUN apt-get update && \
     libgif-dev \
     librsvg2-dev
 
-RUN curl -sL https://deb.nodesource.com/setup_14.x | bash
-RUN apt-get install -y nodejs
-
 COPY package*.json ./
 
 RUN npm ci
@@ -29,9 +26,3 @@ RUN npm ci
 COPY . .
 
 CMD ["node_modules/ts-node-dev/lib/bin.js", "--transpile-only", "src/server.ts"]
-
-
-
-
-
-

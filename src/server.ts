@@ -4,7 +4,9 @@
  * LICENSE file in the root directory of this source tree.
  **/
 
-import "@tensorflow/tfjs-node";
+import "@tensorflow/tfjs-backend-cpu";
+import "@tensorflow/tfjs-backend-webgl";
+
 import express from "express";
 import cors from "cors";
 import bodyParser from "body-parser";

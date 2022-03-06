@@ -6,11 +6,11 @@ AI and machine learning to declare alts, spacing, and more. Checkout [docs](http
 
 ## Docker
 
-if using this service in a docker env make sure to create a .env file and add the env var DOCKER_ENV=true
+If using this service in a docker env make sure to create a .env file and add the env var DOCKER_ENV=true. `docker compose up`.
 
-## M1
+## Local
 
-If your on an m1 you need to run `brew install pkg-config cairo pango libpng jpeg giflib librsvg` in order for canvas to have the correct libs.
+When local mac and running run `brew install pkg-config cairo pango libpng jpeg giflib librsvg` in order for canvas to have the correct libs.
 
 ## Installation
 
@@ -28,7 +28,7 @@ The server will run on port 8080.
 
 ### Usage
 
-Rest endpoints 
+Rest endpoints
 
 POST:
 `/api/parseImg`

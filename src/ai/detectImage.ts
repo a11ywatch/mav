@@ -5,7 +5,7 @@
  **/
 
 import { aiModels } from "./ai-models";
-import { log } from "@a11ywatch/log";
+
 import { getImage } from "./canvas-image";
 
 interface ClassifyModelType {
@@ -45,7 +45,7 @@ export const detectImageModel = async (
     console.log("Predictions: ", pred);
     return pred;
   } catch (e) {
-    log(e, { type: "error", container: "mav" });
+    console.log(e, { type: "error", container: "mav" });
     return null;
   }
 };

@@ -1,21 +1,12 @@
-/*
- * Copyright (c) A11yWatch, LLC. and its affiliates.
- * This source code is licensed under the MIT license found in the
- * LICENSE file in the root directory of this source tree.
- **/
-
-import "@tensorflow/tfjs-backend-cpu";
-import "@tensorflow/tfjs-backend-webgl";
-
+import * as tf from "@tensorflow/tfjs-core";
+import "@tensorflow/tfjs-backend-wasm";
 import express from "express";
-import cors from "cors";
 import bodyParser from "body-parser";
-import { config, corsOptions, logServerInit } from "./config";
+import { config, logServerInit } from "./config";
 import { aiModels, detectImageModel } from "./ai";
 
 const app = express();
 
-app.use(cors(corsOptions));
 app.use(bodyParser.json({ limit: "500mb", extended: true }));
 
 app
@@ -61,6 +52,11 @@ app
 
 const { PORT } = config;
 
-app.listen(PORT, () => {
-  logServerInit(PORT);
-});
+(async () => {
+  await tf.setBackend("wasm");
+  app.listen(PORT, async () => {
+    // set tensorflow backend
+
+    logServerInit(PORT);
+  });
+})();

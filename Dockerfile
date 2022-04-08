@@ -61,7 +61,6 @@ RUN apt-get update && \
     librsvg2-dev
 	
 COPY --from=builder /usr/src/app/dist ./dist
-COPY --from=builder /usr/src/app/.env ./.env
 COPY --from=installer /usr/src/app/node_modules ./node_modules
 
 CMD [ "node", "./dist/server.js"]

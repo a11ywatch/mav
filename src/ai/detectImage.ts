@@ -10,6 +10,7 @@ export const detectImageModel = async (
   imageBase64: string,
   config: { width: number; height: number } = { width: 0, height: 0 }
 ): Promise<ClassifyModelType> => {
+  // todo look into raw base64 sending
   const canv = await getImage(imageBase64, config);
 
   let predictions = [];

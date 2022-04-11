@@ -7,20 +7,21 @@
     "dev": "ts-node-dev --transpile-only src/server.ts",
     "test": "jest",
     "lint": "eslint .",
-    "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s ./src -o ./dist",
+    "build": "tsc && tsc-alias && cp -R src/proto/*.proto dist/proto/",
     "start": "node dist/server.js"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.6.2",
+    "@grpc/proto-loader": "^0.6.9",
     "@tensorflow-models/coco-ssd": "2.2.2",
     "@tensorflow-models/mobilenet": "2.1.0",
     "@tensorflow/tfjs-backend-wasm": "^3.10.0",
     "@tensorflow/tfjs-core": "^3.15.0",
-    "@tensorflow/tfjs-converter": "^3.10.0",
-    "body-parser": "1.19.0",
-    "canvas": "^2.8.0",
-    "express": "4.17.3"
+    "canvas": "^2.8.0"
   },
   "devDependencies": {
+    "@swc/core": "^1.2.117",
+    "@swc/jest": "^0.2.20",
     "@types/jest": "^26.0.14",
     "eslint": "3.8.1",
     "eslint-config-airbnb": "12.0.0",
@@ -29,14 +30,21 @@
     "eslint-plugin-react": "6.4.1",
     "jest": "^26.4.2",
     "prettier": "^2.0.5",
-    "ts-jest": "^26.4.0",
     "ts-node-dev": "1.1.6",
+    "tsc-alias": "^1.6.6",
+    "tsconfig-paths": "^3.9.0",
     "tscpaths": "0.0.9",
-    "typescript": "3.8.3",
+    "typescript": "4.6.2",
     "typescript-eslint": "0.0.1-alpha.0"
   },
   "jest": {
-    "preset": "ts-jest",
+    "moduleNameMapper": {
+      "^@app/(.*)$": "<rootDir>/src/$1"
+    },
+    "transform": {
+      "^.+\\.(t|j)sx?$": "@swc/jest"
+    },
+    "verbose": true,
     "coverageDirectory": "./coverage/",
     "collectCoverage": true
   }

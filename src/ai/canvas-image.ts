@@ -13,8 +13,8 @@ export const getImage = async (
   try {
     return await new Promise((resolve) => {
       img.onload = function () {
-        const srcWidth = config.width || img.width;
-        const srcHeight = config.height || img.width;
+        const srcWidth = Number(config.width || img.width);
+        const srcHeight = Number(config.height || img.width);
         const canvas = createCanvas(srcWidth, srcHeight);
 
         canvas.getContext("2d").drawImage(img, 0, 0, srcWidth, srcHeight);

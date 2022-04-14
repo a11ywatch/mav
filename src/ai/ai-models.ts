@@ -32,7 +32,7 @@ const aiModels = {
     } catch (e) {
       console.error(e);
       if (retry === 0) {
-        this.initMobileNet(1);
+        await this.initMobileNet(1);
       }
       return null;
     }
@@ -49,7 +49,7 @@ const aiModels = {
     } catch (e) {
       console.log(e);
       if (retry === 0) {
-        this.initcocoSSD(1);
+        await this.initcocoSSD(1);
       }
       return null;
     }

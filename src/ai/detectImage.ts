@@ -34,12 +34,11 @@ export const detectImageModel = async (
           className: predictions[0].className || predictions[0].class,
           probability: predictions[0].probability || predictions[0].score,
         }
-      : null;
+      : { className: "", probability: 0 };
 
-    console.log("Predictions: ", pred);
     return pred;
   } catch (e) {
-    console.log(e, { type: "error", container: "mav" });
+    console.error(e);
     return null;
   }
 };

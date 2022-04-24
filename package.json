@@ -11,8 +11,8 @@
     "start": "node dist/server.js"
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.6.2",
-    "@grpc/proto-loader": "^0.6.9",
+    "@grpc/grpc-js": "1.6.2",
+    "@grpc/proto-loader": "0.6.9",
     "@tensorflow-models/coco-ssd": "2.2.2",
     "@tensorflow-models/mobilenet": "2.1.0",
     "@tensorflow/tfjs-backend-wasm": "^3.10.0",

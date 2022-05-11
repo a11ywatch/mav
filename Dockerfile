@@ -51,11 +51,7 @@ FROM node:17-buster-slim
 WORKDIR /usr/src/app
 
 RUN apt-get update && \ 
-	apt-get install -y build-essential \
-    libpixman-1-dev \
-	libc6-dev \
-    libcairo2-dev \
-    libpango1.0-dev \
+	apt-get install -y \
     libjpeg-dev \
     libgif-dev \
     librsvg2-dev

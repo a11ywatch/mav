@@ -12,4 +12,5 @@ message ScanParams {
 
 message Img {
    string className = 1;
+   float probability = 2;
 }

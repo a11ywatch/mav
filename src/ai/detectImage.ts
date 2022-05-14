@@ -15,30 +15,52 @@ export const detectImageModel = async (
 
   let predictions = [];
 
+  // follow gRPC spec
   if (!canv) {
-    return null;
+    return {
+      className: "",
+      probability: 0,
+    };
+  }
+
+  let mobileNetModel;
+  let cocoaSDModel;
+
+  try {
+    mobileNetModel = await aiModels.initMobileNet(1);
+  } catch (e) {
+    console.error(e);
   }
 
   try {
-    const mobileNetModel = await aiModels.initMobileNet(1);
-
     predictions = await mobileNetModel?.classify(canv);
-
-    if (predictions?.length && predictions[0].probability <= 0.3) {
-      const cocoaSDModel = await aiModels.initcocoSSD(1);
-      predictions = await cocoaSDModel?.detect(canv);
-    }
-
-    const pred = predictions?.length
-      ? {
-          className: predictions[0].className || predictions[0].class,
-          probability: predictions[0].probability || predictions[0].score,
-        }
-      : { className: "", probability: 0 };
-
-    return pred;
   } catch (e) {
     console.error(e);
-    return null;
   }
+
+  // retry with cocoa network
+  if (predictions?.length && predictions[0].probability <= 0.3) {
+    try {
+      cocoaSDModel = await aiModels.initcocoSSD(1);
+    } catch (e) {
+      console.error(e);
+    }
+    try {
+      predictions = await cocoaSDModel?.detect(canv);
+    } catch (e) {
+      console.error(e);
+    }
+  }
+
+  const predictionsCount = predictions?.length;
+  const topPrediction = predictionsCount ? predictions[0] : {};
+
+  // backwards compat api
+  const className = topPrediction?.className || topPrediction?.class || "";
+  const probability = topPrediction?.probability || topPrediction?.score || 0;
+
+  return {
+    className,
+    probability,
+  };
 };

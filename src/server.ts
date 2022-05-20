@@ -23,9 +23,9 @@ server.listen(PORT, async () => {
   logServerInit(PORT);
   // set tensorflow backend
   await tf.setBackend("wasm");
-  if (process.env.INIT_AI_MODELS === "true") {
-    await aiModels.initModels();
-  }
+
+  await aiModels.initModels();
+
   await startGRPC();
 });
 

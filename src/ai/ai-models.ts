@@ -1,68 +1,38 @@
 import * as mobilenet from "@tensorflow-models/mobilenet";
 import * as cocoSsd from "@tensorflow-models/coco-ssd";
 
-import {
-  CLEAR_MODELS,
-  LOADING_MOBILE_NET,
-  LOADING_COCOA_SSD,
-  LOADED_MODELS,
-  LOADING_MODELS,
-} from "../static";
+import { CLEAR_MODELS, LOADING_MOBILE_NET, LOADING_COCOA_SSD } from "../static";
 
-const version = 2;
-const alpha = 1;
-
-let mobileNetModel;
-let cocoaSDModel;
+let mobileNetModel: mobilenet.MobileNet;
+let cocoaSDModel: cocoSsd.ObjectDetection;
 
 const aiModels = {
-  mobileNetModel: null,
-  cocoaSDModel: null,
   loadingMobileNet: false,
   loadingCocoaNet: false,
   initMobileNet: async function (retry: number = 0) {
     try {
-      if (mobileNetModel) {
-        return mobileNetModel;
-      } else {
-        console.log(LOADING_MOBILE_NET);
-        mobileNetModel = await mobilenet.load({ version, alpha });
-        return mobileNetModel;
-      }
+      console.log(LOADING_MOBILE_NET);
+      mobileNetModel = await mobilenet.load({ version: 2, alpha: 1 });
     } catch (e) {
       console.error(e);
       if (retry === 0) {
         await this.initMobileNet(1);
       }
-      return null;
     }
   },
   initcocoSSD: async function (retry: number = 0) {
     try {
-      if (cocoaSDModel) {
-        return cocoaSDModel;
-      } else {
-        console.log(LOADING_COCOA_SSD);
-        cocoaSDModel = await cocoSsd.load({ base: "mobilenet_v2" });
-        return cocoaSDModel;
-      }
+      console.log(LOADING_COCOA_SSD);
+      cocoaSDModel = await cocoSsd.load({ base: "mobilenet_v2" });
     } catch (e) {
-      console.log(e);
+      console.error(e);
       if (retry === 0) {
         await this.initcocoSSD(1);
       }
-      return null;
     }
   },
-  initModels: async function (bypass?: boolean): Promise<string> {
-    if (cocoaSDModel && mobileNetModel && !bypass) {
-      console.log(LOADED_MODELS);
-      return LOADED_MODELS;
-    } else {
-      console.log(LOADING_MODELS);
-      await Promise.all([this.initcocoSSD(false), this.initMobileNet(false)]);
-      return LOADED_MODELS;
-    }
+  initModels: async function (): Promise<any> {
+    await Promise.all([this.initcocoSSD(false), this.initMobileNet(false)]);
   },
   clearModels: function (): string {
     mobileNetModel = null;
@@ -72,4 +42,4 @@ const aiModels = {
   },
 };
 
-export { aiModels };
+export { aiModels, mobileNetModel, cocoaSDModel };

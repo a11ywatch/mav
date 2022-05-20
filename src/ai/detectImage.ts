@@ -1,66 +1,34 @@
-import { aiModels } from "./ai-models";
+import { mobileNetModel, cocoaSDModel } from "./ai-models";
 import { getImage } from "./canvas-image";
+import type { ClassifyModelType, ImageConfig } from "./config";
 
-interface ClassifyModelType {
-  className: string;
-  probability: number;
-}
+// predict the image based off a HTMLCanvasElement.
+export const predictImage = async (canv: any) => {
+  let predictions = [];
+  try {
+    predictions = await mobileNetModel?.classify(canv as any, 1);
+    if (
+      (predictions?.length && predictions[0].probability <= 0.3) ||
+      !predictions?.length
+    ) {
+      predictions = await cocoaSDModel?.detect(canv as any); // Retry with cocoa network.
+    }
+  } catch (e) {
+    console.error(e);
+  }
+  return predictions;
+};
 
 export const detectImageModel = async (
-  imageBase64: string,
-  config: { width: number; height: number } = { width: 0, height: 0 }
+  config?: ImageConfig
 ): Promise<ClassifyModelType> => {
-  // todo look into raw base64 sending
-  const canv = await getImage(imageBase64, config);
+  const canv = await getImage(config).catch((e) => console.error(e));
+  const predictions = await predictImage(canv).catch((e) => console.error(e));
 
-  let predictions = [];
-
-  // follow gRPC spec
-  if (!canv) {
-    return {
-      className: "",
-      probability: 0,
-    };
-  }
-
-  let mobileNetModel;
-  let cocoaSDModel;
-
-  try {
-    mobileNetModel = await aiModels.initMobileNet(1);
-  } catch (e) {
-    console.error(e);
-  }
-
-  try {
-    predictions = await mobileNetModel?.classify(canv);
-  } catch (e) {
-    console.error(e);
-  }
-
-  // retry with cocoa network
-  if (predictions?.length && predictions[0].probability <= 0.3) {
-    try {
-      cocoaSDModel = await aiModels.initcocoSSD(1);
-    } catch (e) {
-      console.error(e);
-    }
-    try {
-      predictions = await cocoaSDModel?.detect(canv);
-    } catch (e) {
-      console.error(e);
-    }
-  }
-
-  const predictionsCount = predictions?.length;
-  const topPrediction = predictionsCount ? predictions[0] : {};
-
-  // backwards compat api
-  const className = topPrediction?.className || topPrediction?.class || "";
-  const probability = topPrediction?.probability || topPrediction?.score || 0;
+  const source = predictions && predictions?.length ? predictions[0] : {}; // Get top prediction.
 
   return {
-    className,
-    probability,
+    className: source?.className || source?.class || "",
+    probability: source?.probability || source?.score || 0,
   };
 };

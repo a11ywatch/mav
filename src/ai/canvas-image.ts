@@ -1,12 +1,12 @@
 import { createCanvas, Image } from "canvas";
 import type { Canvas } from "canvas";
+import type { ImageConfig } from "./config";
 
 export const getImage = async (
-  imageBase64: string,
-  config: { width: number; height: number } = { width: 0, height: 0 }
+  config: ImageConfig = { imageBase64: "", width: 0, height: 0 }
 ): Promise<Canvas> => {
-  if (!imageBase64) {
-    return null;
+  if (!config.imageBase64) {
+    return Promise.resolve(null);
   }
   const img = new Image();
 
@@ -25,10 +25,9 @@ export const getImage = async (
         resolve(null);
       };
 
-      img.src = imageBase64;
+      img.src = config.imageBase64;
     });
   } catch (e) {
     console.error(e);
-    return null;
   }
 };

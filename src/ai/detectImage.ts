@@ -22,8 +22,9 @@ export const predictImage = async (canv: any) => {
 export const detectImageModel = async (
   config?: ImageConfig
 ): Promise<ClassifyModelType> => {
-  const canv = await getImage(config).catch((e) => console.error(e));
-  const predictions = await predictImage(canv).catch((e) => console.error(e));
+  const cv = await getImage(config).catch((e) => console.error(e));
+  const predictions =
+    cv && (await predictImage(cv).catch((e) => console.error(e)));
 
   const source = predictions && predictions?.length ? predictions[0] : {}; // Get top prediction.
 

@@ -11,6 +11,7 @@
     "start": "node dist/server.js"
   },
   "dependencies": {
+    "@azure/cognitiveservices-computervision": "^8.2.0",
     "@grpc/grpc-js": "1.6.2",
     "@grpc/proto-loader": "0.6.9",
     "@tensorflow-models/coco-ssd": "2.2.2",

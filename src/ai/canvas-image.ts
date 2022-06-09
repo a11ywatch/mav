@@ -3,9 +3,9 @@ import type { Canvas } from "canvas";
 import type { ImageConfig } from "./config";
 
 export const getImage = async (
-  config: ImageConfig = { imageBase64: "", width: 0, height: 0 }
+  config: ImageConfig = { img: "", width: 0, height: 0 }
 ): Promise<Canvas> => {
-  if (!config.imageBase64) {
+  if (!config.img) {
     return Promise.resolve(null);
   }
   const img = new Image();
@@ -25,7 +25,7 @@ export const getImage = async (
         resolve(null);
       };
 
-      img.src = config.imageBase64;
+      img.src = config.img;
     });
   } catch (e) {
     console.error(e);

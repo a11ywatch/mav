@@ -10,8 +10,7 @@ export const createServer = async () => {
   server = new Server();
   server.addService(websiteProto.WebsiteService.service, {
     parseImg: async (call, callback) => {
-      const { width, height, img } = call.request;
-      const page = await detectImageModel({ imageBase64: img, width, height });
+      const page = await detectImageModel(call.request);
       callback(null, page);
     },
   });

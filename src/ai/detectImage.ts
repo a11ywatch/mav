@@ -30,7 +30,7 @@ export const detectImageModel = async (
 
   const runComputerVision =
     config.cv &&
-    (!predictions ||
+    ((predictions && !predictions?.length) ||
       (predictions &&
         predictions?.length &&
         predictions[0].probability <= 0.5));

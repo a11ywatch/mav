@@ -96,6 +96,43 @@ export function computerVision(
         console.error(e);
       }
 
+      const requiresOcr =
+        model &&
+        model.tags?.includes("text") &&
+        model.captions?.length &&
+        model.captions[0].text === "text" &&
+        model.captions[0].confidence >= 0.9;
+
+      // retry with ocr text
+      if (requiresOcr) {
+        model = await computerVisionClient.recognizePrintedTextInStream(
+          true,
+          () => createReadStream(handwrittenImagePath)
+        );
+
+        if (model) {
+          // build top results to api as one alt
+          const linesOfText = [];
+
+          model?.regions?.forEach((region) => {
+            region?.lines?.forEach((line) => {
+              line?.words?.forEach((word) => {
+                if (word.text) {
+                  linesOfText.push(word.text);
+                }
+              });
+            });
+          });
+
+          if (linesOfText.length) {
+            // return as captions
+            model = {
+              captions: [{ confidence: 1, className: linesOfText.join(" ") }],
+            };
+          }
+        }
+      }
+
       unlinkSync(handwrittenImagePath);
     }
 

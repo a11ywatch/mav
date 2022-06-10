@@ -1,7 +1,7 @@
 {
-  "name": "mav",
-  "version": "0.1.0",
-  "description": "ai for generating accessibility fixes",
+  "name": "@a11ywatch/mav",
+  "version": "0.1.1",
+  "description": "a gRPC image recognition service",
   "main": "./dist/server.js",
   "scripts": {
     "dev": "ts-node-dev --transpile-only src/server.ts",

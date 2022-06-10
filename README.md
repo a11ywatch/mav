@@ -17,6 +17,8 @@ yarn dev
 docker compose up
 ```
 
+You can also install as a library via `yarn add @a11ywatch/mav` to use inside your own node project.
+
 The server will run on port 8080.
 
 ### Usage

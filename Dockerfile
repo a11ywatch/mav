@@ -1,4 +1,4 @@
-FROM node:17-buster-slim AS builder 
+FROM node:17-buster-slim AS installer 
 
 WORKDIR /usr/src/app
 
@@ -20,11 +20,7 @@ COPY package*.json ./
 
 RUN npm ci
 
-COPY . .
-
-RUN  npm run build
-
-FROM node:17-buster-slim AS installer 
+FROM node:17-buster-slim AS builder 
 
 WORKDIR /usr/src/app
 
@@ -42,8 +38,10 @@ RUN apt-get update && \
     libgif-dev \
     librsvg2-dev
 
-COPY package*.json ./
-
+COPY --from=installer /usr/src/app/node_modules ./node_modules
+COPY . .
+RUN  npm run build
+RUN rm -R ./node_modules
 RUN npm install --production
 
 FROM node:17-buster-slim
@@ -57,6 +55,6 @@ RUN apt-get update && \
     librsvg2-dev
 	
 COPY --from=builder /usr/src/app/dist ./dist
-COPY --from=installer /usr/src/app/node_modules ./node_modules
+COPY --from=builder /usr/src/app/node_modules ./node_modules
 
 CMD [ "node", "./dist/server.js"]

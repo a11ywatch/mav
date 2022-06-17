@@ -3,26 +3,26 @@ import type { Canvas } from "canvas";
 import type { ImageConfig } from "./config";
 
 export const getImage = (
-  config: ImageConfig = { img: "", width: 0, height: 0 }
+  config: ImageConfig = { img: "", width: 50, height: 50 }
 ): Promise<Canvas> => {
   if (!config.img) {
     return Promise.resolve(null);
   }
+  const srcWidth = Math.max(Number(config.width), 50);
+  const srcHeight = Math.max(Number(config.height), 50);
+  const canvas = createCanvas(srcWidth, srcHeight);
+
   const img = new Image();
 
   try {
-    return new Promise((resolve) => {
+    return new Promise((resolve, reject) => {
       img.onload = function () {
-        const srcWidth = Number(config.width || img.width);
-        const srcHeight = Number(config.height || img.width);
-        const canvas = createCanvas(srcWidth, srcHeight);
-
         canvas.getContext("2d").drawImage(img, 0, 0, srcWidth, srcHeight);
         resolve(canvas);
       };
 
-      img.onerror = function () {
-        resolve(null);
+      img.onerror = function (err) {
+        reject(err);
       };
 
       img.src = config.img;

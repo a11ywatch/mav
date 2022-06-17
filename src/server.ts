@@ -1,7 +1,5 @@
-import * as tf from "@tensorflow/tfjs-core";
-import "@tensorflow/tfjs-backend-wasm";
-import { config, logServerInit } from "./config";
 import http from "http";
+import { config, logServerInit } from "./config";
 import { startGRPC } from "./proto/init";
 import { aiModels } from "./ai";
 
@@ -22,6 +20,17 @@ const { PORT } = config;
 server.listen(PORT, async () => {
   logServerInit(PORT);
   await startGRPC(); // start gRPC instantly. Models may not be loaded yet.
-  await tf.setBackend("wasm"); // set tensorflow wasm backend
-  await aiModels.initModels();
+
+  // lazy load tensorflow
+  if (process.env.DISABLE_TENSORFLOW !== "true") {
+    const tf = await import("@tensorflow/tfjs-core");
+
+    if (process.env.NODE_ENV === "production") {
+      tf.enableProdMode();
+    }
+
+    await import("@tensorflow/tfjs-backend-wasm");
+    await tf.setBackend("wasm"); // set tensorflow wasm backend
+    await aiModels.initModels();
+  }
 });

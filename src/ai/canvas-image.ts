@@ -2,7 +2,7 @@ import { createCanvas, Image } from "canvas";
 import type { Canvas } from "canvas";
 import type { ImageConfig } from "./config";
 
-export const getImage = async (
+export const getImage = (
   config: ImageConfig = { img: "", width: 0, height: 0 }
 ): Promise<Canvas> => {
   if (!config.img) {
@@ -11,7 +11,7 @@ export const getImage = async (
   const img = new Image();
 
   try {
-    return await new Promise((resolve) => {
+    return new Promise((resolve) => {
       img.onload = function () {
         const srcWidth = Number(config.width || img.width);
         const srcHeight = Number(config.height || img.width);

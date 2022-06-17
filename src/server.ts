@@ -4,7 +4,6 @@ import { config, logServerInit } from "./config";
 import http from "http";
 import { startGRPC } from "./proto/init";
 import { aiModels } from "./ai";
-import { CronJob } from "cron";
 
 // TODO: REMOVE for central GRPC HC server
 const server = http.createServer(function (req, res) {
@@ -25,9 +24,4 @@ server.listen(PORT, async () => {
   await startGRPC(); // start gRPC instantly. Models may not be loaded yet.
   await tf.setBackend("wasm"); // set tensorflow wasm backend
   await aiModels.initModels();
-
-  // sync new models [nightly].
-  new CronJob("0 0 * * *", async () => {
-    await aiModels.initModels();
-  }).start();
 });

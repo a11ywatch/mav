@@ -2,6 +2,7 @@ import { ComputerVisionClient } from "@azure/cognitiveservices-computervision";
 import { ApiKeyCredentials } from "@azure/ms-rest-js";
 import { createReadStream, writeFileSync, unlinkSync } from "fs";
 import type { ComputerVisionModels } from "@azure/cognitiveservices-computervision";
+import { base64Replacer } from "../utils/clean-base64";
 
 const key = process.env.COMPUTER_VISION_SUBSCRIPTION_KEY;
 let endpoint = process.env.COMPUTER_VISION_ENDPOINT;
@@ -13,29 +14,6 @@ if (endpoint) {
   }
   endpoint = endpoint.trim();
 }
-
-// remove base64 and just get data
-const base64Replacer = (base: string) => {
-  if (base.startsWith("data:image/png;base64,")) {
-    base = base.replace(/^data:image\/png;base64,/, "");
-  }
-  if (base.startsWith("data:image/jpg;base64,")) {
-    base = base.replace(/^data:image\/jpg;base64,/, "");
-  }
-  if (base.startsWith("data:image/jpeg;base64,")) {
-    base = base.replace(/^data:image\/jpg;base64,/, "");
-  }
-  if (base.startsWith("data:image/tif;base64,")) {
-    base = base.replace(/^data:image\/jpg;base64,/, "");
-  }
-  if (base.startsWith("data:image/svg;base64,")) {
-    base = base.replace(/^data:image\/jpg;base64,/, "");
-  }
-  if (base.startsWith("data:image/gif;base64,")) {
-    base = base.replace(/^data:image\/jpg;base64,/, "");
-  }
-  return base;
-};
 
 const computerVisionClient =
   key && endpoint

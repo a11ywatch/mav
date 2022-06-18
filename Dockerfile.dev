@@ -1,3 +1,16 @@
+FROM --platform=$BUILDPLATFORM rustlang/rust:nightly AS rustbuilder
+
+WORKDIR /app
+COPY . .
+
+ENV GRPC_HOST=0.0.0.0:50053
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    gcc cmake libc6
+
+RUN cargo install --no-default-features --path .
+
 FROM node:17-buster-slim
 
 WORKDIR /usr/src/app
@@ -24,5 +37,6 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
+COPY --from=rustbuilder /usr/local/cargo/bin/health_client /usr/local/bin/health_client
 
 CMD ["node_modules/ts-node-dev/lib/bin.js", "--transpile-only", "-r", "tsconfig-paths/register", "src/server.ts"]

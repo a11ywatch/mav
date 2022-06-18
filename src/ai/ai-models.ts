@@ -1,10 +1,13 @@
-import * as mobilenet from "@tensorflow-models/mobilenet";
-import * as cocoSsd from "@tensorflow-models/coco-ssd";
+import { load, MobileNet } from "@tensorflow-models/mobilenet";
+import {
+  load as cocoSsdLoad,
+  ObjectDetection,
+} from "@tensorflow-models/coco-ssd";
 
 import { CLEAR_MODELS, LOADING_MOBILE_NET, LOADING_COCOA_SSD } from "../static";
 
-let mobileNetModel: mobilenet.MobileNet;
-let cocoaSDModel: cocoSsd.ObjectDetection;
+let mobileNetModel: MobileNet;
+let cocoaSDModel: ObjectDetection;
 
 const aiModels = {
   loadingMobileNet: false,
@@ -12,7 +15,7 @@ const aiModels = {
   initMobileNet: async function (retry: number = 0) {
     try {
       console.log(LOADING_MOBILE_NET);
-      mobileNetModel = await mobilenet.load({ version: 2, alpha: 1 });
+      mobileNetModel = await load({ version: 2, alpha: 1 });
     } catch (e) {
       console.error(e);
       if (retry === 0) {
@@ -23,7 +26,7 @@ const aiModels = {
   initcocoSSD: async function (retry: number = 0) {
     try {
       console.log(LOADING_COCOA_SSD);
-      cocoaSDModel = await cocoSsd.load({ base: "mobilenet_v2" });
+      cocoaSDModel = await cocoSsdLoad({ base: "mobilenet_v2" });
     } catch (e) {
       console.error(e);
       if (retry === 0) {

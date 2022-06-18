@@ -1,24 +1,7 @@
-import http from "http";
-import { config, logServerInit } from "./config";
 import { startGRPC } from "./proto/init";
 import { aiModels } from "./ai";
 
-// TODO: REMOVE for central GRPC HC server
-const server = http.createServer(function (req, res) {
-  if (
-    req.url === "/_internal_/healthcheck" ||
-    req.url === "/_internal_/healthcheck/"
-  ) {
-    res.writeHead(200, { "Content-Type": "application/json" });
-    res.write(`{ status: "healthy" }`); // status -> healthy, degraded, offline
-    res.end();
-  }
-});
-
-const { PORT } = config;
-
-server.listen(PORT, async () => {
-  logServerInit(PORT);
+const initApp = async () => {
   await startGRPC(); // start gRPC instantly. Models may not be loaded yet.
 
   // lazy load tensorflow
@@ -33,4 +16,6 @@ server.listen(PORT, async () => {
     await tf.setBackend("wasm"); // set tensorflow wasm backend
     await aiModels.initModels();
   }
-});
+};
+
+initApp();

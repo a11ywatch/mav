@@ -7,14 +7,7 @@ RUN apt-get update && \
 	python3 \
 	pkg-config \
 	make \
-	gcc \ 
-    libpixman-1-dev \
-	libc6-dev \
-    libcairo2-dev \
-    libpango1.0-dev \
-    libjpeg-dev \
-    libgif-dev \
-    librsvg2-dev
+	gcc
 
 COPY package*.json ./
 
@@ -29,14 +22,7 @@ RUN apt-get update && \
 	python3 \
 	pkg-config \
 	make \
-	gcc \ 
-    libpixman-1-dev \
-	libc6-dev \
-    libcairo2-dev \
-    libpango1.0-dev \
-    libjpeg-dev \
-    libgif-dev \
-    librsvg2-dev
+	gcc
 
 COPY --from=installer /usr/src/app/node_modules ./node_modules
 COPY . .
@@ -63,12 +49,7 @@ WORKDIR /usr/src/app
 
 # required runtime deps
 RUN apt-get update && \
-    apt-get install -y build-essential \
-    libcairo2-dev \
-    libpango1.0-dev \
-    libjpeg-dev \
-    libgif-dev \
-    librsvg2-dev
+    apt-get install -y build-essential
 	
 COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/node_modules ./node_modules

@@ -24,12 +24,12 @@ server.listen(PORT, async () => {
   // lazy load tensorflow
   if (process.env.DISABLE_TENSORFLOW !== "true") {
     const tf = await import("@tensorflow/tfjs-core");
+    await import("@tensorflow/tfjs-backend-wasm");
 
     if (process.env.NODE_ENV === "production") {
       tf.enableProdMode();
     }
 
-    await import("@tensorflow/tfjs-backend-wasm");
     await tf.setBackend("wasm"); // set tensorflow wasm backend
     await aiModels.initModels();
   }

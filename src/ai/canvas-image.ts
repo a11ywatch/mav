@@ -10,24 +10,20 @@ export const getImage = (
   }
   const srcWidth = Math.max(Number(config.width), 50);
   const srcHeight = Math.max(Number(config.height), 50);
-  const canvas = createCanvas(srcWidth, srcHeight);
 
+  const canvas = createCanvas(srcWidth, srcHeight);
   const img = new Image();
 
-  try {
-    return new Promise((resolve, reject) => {
-      img.onload = function () {
-        canvas.getContext("2d").drawImage(img, 0, 0, srcWidth, srcHeight);
-        resolve(canvas);
-      };
+  return new Promise((resolve, reject) => {
+    img.onload = function () {
+      canvas.getContext("2d").drawImage(img, 0, 0, srcWidth, srcHeight);
+      resolve(canvas);
+    };
 
-      img.onerror = function (err) {
-        reject(err);
-      };
+    img.onerror = function (err) {
+      reject(err);
+    };
 
-      img.src = config.img;
-    });
-  } catch (e) {
-    console.error(e);
-  }
+    img.src = config.img;
+  });
 };

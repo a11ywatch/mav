@@ -5,13 +5,16 @@ import { computerVision } from "./azure-detect-image";
 import { chainNextClassifier } from "@app/utils/chain-next";
 import { confidentCaptions } from "@app/utils/confidence";
 
-// predict the image based off a HTMLCanvasElement.
-export const predictImage = async (canv: any) => {
+// predict the image based off a HTMLCanvasElement. @returns {class: string, probablity: number }[]
+export const predictImage = async (canv) => {
   let predictions = [];
   try {
-    predictions = await mobileNetModel?.classify(canv as any, 1);
+    predictions = await mobileNetModel?.classify(canv, 1);
     if (chainNextClassifier(predictions)) {
-      predictions = await cocoaSDModel?.detect(canv as any); // Retry with cocoa network.
+      const cocoaPreds = await cocoaSDModel?.detect(canv); // Retry with cocoa network.
+      if (cocoaPreds && cocoaPreds?.length) {
+        predictions = cocoaPreds;
+      }
     }
   } catch (e) {
     console.error(e);
@@ -22,8 +25,9 @@ export const predictImage = async (canv: any) => {
 export const detectImageModel = async (
   config: ImageConfig
 ): Promise<ClassifyModelType> => {
-  let predictions = [];
   const cv = await getImage(config).catch((e) => console.error(e));
+
+  let predictions = [];
 
   if (cv) {
     try {
@@ -45,7 +49,6 @@ export const detectImageModel = async (
 
   const source = predictions && predictions?.length && predictions[0];
 
-  // always return values - gRPC
   return {
     className: source?.className || source?.class || source?.text || "",
     probability:

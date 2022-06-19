@@ -18,7 +18,8 @@
     "@tensorflow/tfjs-backend-wasm": "^3.18.0",
     "@tensorflow/tfjs-converter": "^3.18.0",
     "@tensorflow/tfjs-core": "3.18.0",
-    "base64-to-tensor": "1.0.22"
+    "base64-to-tensor": "1.2.1",
+    "jpeg-js": "^0.4.4"
   },
   "devDependencies": {
     "@swc/core": "^1.2.197",

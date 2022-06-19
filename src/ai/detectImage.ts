@@ -12,10 +12,13 @@ export const detectImageModel = async (
   let tensor = convert(config.img);
   let predictions = [];
 
-  try {
-    predictions = tensor && (await predictImage(tensor));
-  } catch (e) {
-    console.error(e);
+  if (tensor) {
+    try {
+      predictions = await predictImage(tensor);
+      tensor.dispose();
+    } catch (e) {
+      console.error(e);
+    }
   }
 
   const runComputerVision = chainNextClassifier(predictions);

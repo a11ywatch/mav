@@ -1,8 +1,10 @@
 import { ComputerVisionClient } from "@azure/cognitiveservices-computervision";
 import { ApiKeyCredentials } from "@azure/ms-rest-js";
-import { createReadStream, writeFileSync, unlinkSync } from "fs";
+import { createReadStream, writeFile, ensureFile, remove } from "fs-extra";
 import type { ComputerVisionModels } from "@azure/cognitiveservices-computervision";
 import { base64Replacer } from "tensornet/node_modules/base64-to-tensor";
+import { URL } from "url";
+import { blacklistUrl } from "../utils/blacklist";
 
 const key = process.env.COMPUTER_VISION_SUBSCRIPTION_KEY;
 let endpoint = process.env.COMPUTER_VISION_ENDPOINT;
@@ -36,20 +38,13 @@ export function computerVision(
   url: string,
   base64?: string
 ): Promise<ComputerVisionModels.ImageDescriptionDetails> {
-  // exit if api key not found or target
-  if (!computerVisionClient || (!url && !base64)) {
-    return;
-  }
-
   return new Promise(async (resolve) => {
+    if (!computerVisionClient || (!url && !base64)) {
+      return resolve(null);
+    }
     let model;
-    if (
-      url &&
-      !url.startsWith("http://localhost") &&
-      !url.startsWith("http://127.0.0.1") &&
-      !url.startsWith("http://0.0.0.0") &&
-      !url.includes(".lan:") // ignore local lan urls
-    ) {
+
+    if (blacklistUrl(url)) {
       try {
         model = await computerVisionClient.describeImage(url, params);
       } catch (e) {
@@ -60,13 +55,31 @@ export function computerVision(
     // retry as local image.
     if (base64 || !model) {
       const stripBase64 = base64Replacer(base64);
-      const baseP = url
-        ? `/${url.split("/").pop()}`
-        : `"\\handwritten_${stripBase64.length}.jpg"`;
 
-      const handwrittenImagePath = __dirname + baseP;
+      // inline file missing alt randomized name
+      let baseP = `handwritten_${Math.random()}`;
 
-      writeFileSync(handwrittenImagePath, stripBase64, "base64");
+      try {
+        const host = new URL(url);
+
+        if (host) {
+          const hs = host.pathname.split("/");
+          hs.pop();
+          const targetPath = `${host.hostname}${hs[0]}`;
+          baseP = `${targetPath}`;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+
+      const handwrittenImagePath = `/tmp/img/${baseP}.jpg`;
+
+      try {
+        await ensureFile(handwrittenImagePath);
+        await writeFile(handwrittenImagePath, stripBase64, "base64");
+      } catch (e) {
+        console.error(e);
+      }
 
       try {
         model = await computerVisionClient.describeImageInStream(
@@ -106,7 +119,6 @@ export function computerVision(
           });
 
           if (linesOfText.length) {
-            // return as captions
             model = {
               captions: [{ confidence: 1, className: linesOfText.join(" ") }],
             };
@@ -114,7 +126,11 @@ export function computerVision(
         }
       }
 
-      unlinkSync(handwrittenImagePath);
+      try {
+        await remove(handwrittenImagePath);
+      } catch (e) {
+        console.error(e);
+      }
     }
 
     resolve(model);

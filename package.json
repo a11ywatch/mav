@@ -18,12 +18,14 @@
     "@tensorflow/tfjs-backend-wasm": "^3.18.0",
     "@tensorflow/tfjs-converter": "^3.18.0",
     "@tensorflow/tfjs-core": "3.18.0",
+    "fs-extra": "^10.1.0",
     "jpeg-js": "^0.4.4",
-    "tensornet": "1.0.7"
+    "tensornet": "1.0.9"
   },
   "devDependencies": {
     "@swc/core": "^1.2.197",
     "@swc/jest": "^0.2.21",
+    "@types/fs-extra": "^9.0.13",
     "@types/jest": "^28.1.1",
     "jest": "^26.4.2",
     "prettier": "^2.0.5",

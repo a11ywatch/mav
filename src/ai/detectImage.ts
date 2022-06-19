@@ -1,24 +1,19 @@
 import { computerVision } from "./azure-detect-image";
-import { predictImage } from "./network-predict";
 import { chainNextClassifier } from "../utils/chain-next";
 import { confidentCaptions } from "../utils/confidence";
 import type { ClassifyModelType, ImageConfig } from "./config";
-import { convert } from "base64-to-tensor";
+import { classify } from "tensornet";
 
 // Determine the alt tag from a base64 or url
 export const detectImageModel = async (
   config: ImageConfig
 ): Promise<ClassifyModelType> => {
-  let tensor = convert(config.img);
   let predictions = [];
 
-  if (tensor) {
-    try {
-      predictions = await predictImage(tensor);
-      tensor.dispose();
-    } catch (e) {
-      console.error(e);
-    }
+  try {
+    predictions = await classify(config.img);
+  } catch (e) {
+    console.error(e);
   }
 
   const runComputerVision = chainNextClassifier(predictions);
@@ -38,8 +33,7 @@ export const detectImageModel = async (
   const source = predictions?.length && predictions[0];
 
   return {
-    className: source?.className || source?.class || source?.text || "",
-    probability:
-      source?.probability || source?.score || source?.confidence || 0,
+    className: source?.className || source?.text || "",
+    probability: source?.probability || source?.confidence || 0,
   };
 };

@@ -1,5 +1,4 @@
 import { startGRPC } from "./proto/init";
-import { aiModels } from "./ai";
 
 const initApp = async () => {
   await startGRPC(); // start gRPC instantly. Models may not be loaded yet.
@@ -14,7 +13,6 @@ const initApp = async () => {
     }
 
     await tf.setBackend("wasm"); // set tensorflow wasm backend
-    await aiModels.initModels();
   }
 };
 

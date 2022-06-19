@@ -2,7 +2,7 @@ import { ComputerVisionClient } from "@azure/cognitiveservices-computervision";
 import { ApiKeyCredentials } from "@azure/ms-rest-js";
 import { createReadStream, writeFileSync, unlinkSync } from "fs";
 import type { ComputerVisionModels } from "@azure/cognitiveservices-computervision";
-import { base64Replacer } from "../utils/clean-base64";
+import { base64Replacer } from "tensornet/node_modules/base64-to-tensor";
 
 const key = process.env.COMPUTER_VISION_SUBSCRIPTION_KEY;
 let endpoint = process.env.COMPUTER_VISION_ENDPOINT;

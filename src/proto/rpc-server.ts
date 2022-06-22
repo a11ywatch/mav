@@ -6,7 +6,7 @@ import { GRPC_PORT, GRPC_HOST } from "../config/rpc";
 let server: Server;
 
 export const createServer = async () => {
-  const websiteProto = await getProto();
+  const mavProto = await getProto();
   const healthProto = await getProto("/health.proto");
 
   server = new Server();
@@ -17,7 +17,7 @@ export const createServer = async () => {
     },
   });
 
-  server.addService(websiteProto.WebsiteService.service, {
+  server.addService(mavProto.Mav.service, {
     parseImg: async (call, callback) => {
       const page = await detectImageModel(call.request);
       callback(null, page);
@@ -31,10 +31,10 @@ export const createServer = async () => {
 };
 
 export const killServer = async () => {
-  const websiteProto = await getProto();
+  const mavProto = await getProto();
   const healthProto = await getProto("/health.proto");
 
-  server.removeService(websiteProto.WebsiteService.service);
+  server.removeService(mavProto.Mav.service);
   server.removeService(healthProto.health.HealthCheck.service);
 
   server.forceShutdown();

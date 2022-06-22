@@ -99,10 +99,14 @@ export function computerVision(
 
       // retry with ocr text
       if (requiresOcr) {
-        model = await computerVisionClient.recognizePrintedTextInStream(
-          true,
-          () => createReadStream(handwrittenImagePath)
-        );
+        try {
+          model = await computerVisionClient.recognizePrintedTextInStream(
+            true,
+            () => createReadStream(handwrittenImagePath)
+          );
+        } catch (e) {
+          console.error(e);
+        }
 
         if (model) {
           // build top results to api as one alt

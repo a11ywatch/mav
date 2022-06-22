@@ -14,7 +14,7 @@ export const detectImageModel = async (
   try {
     const classification = await predict(config.img);
 
-    if (classification?.length) {
+    if (classification && classification?.length) {
       predictions = classification;
     }
   } catch (e) {
@@ -24,14 +24,15 @@ export const detectImageModel = async (
   const runComputerVision = chainNextClassifier(predictions);
 
   if (runComputerVision) {
+    let openCV;
     try {
-      const openCV = await computerVision(config.url, config.img);
       // text description from OCR matched
-      if (confidentCaptions(openCV)) {
-        predictions = openCV.captions;
-      }
+      openCV = await computerVision(config.url, config.img);
     } catch (e) {
       console.error(e);
+    }
+    if (openCV && confidentCaptions(openCV)) {
+      predictions = openCV.captions;
     }
   }
 

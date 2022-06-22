@@ -1,16 +1,57 @@
-import { Worker, isMainThread, parentPort, workerData } from "worker_threads";
+import { Worker, isMainThread, parentPort } from "worker_threads";
 
 if (isMainThread) {
-  module.exports = function predict(base64) {
-    return new Promise((resolve, reject) => {
-      const worker = new Worker(__filename, {
-        workerData: base64,
-      });
+  const keepAlive = process.env.TENSORFLOW_KEEP_ALIVE_TIMEOUT
+    ? Number(process.env.TENSORFLOW_KEEP_ALIVE_TIMEOUT)
+    : 2000;
+  let worker;
+  let clearWorkerTimer;
 
-      worker.once("message", resolve);
-      worker.once("error", reject);
-      worker.once("exit", (code) => {
+  const clearWorker = async () => {
+    if (worker) {
+      try {
+        await worker.terminate();
+        worker = null;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+  };
+
+  module.exports = function predict(base64) {
+    return new Promise((res, rej) => {
+      if (clearWorkerTimer) {
+        clearTimeout(clearWorkerTimer);
+      }
+
+      if (!worker) {
+        worker = new Worker(__filename);
+      }
+      worker.postMessage(base64);
+
+      const cleanUp = () => {
+        clearWorkerTimer = setTimeout(clearWorker, keepAlive);
+      };
+
+      const resolve = (e) => {
+        if (e.tracker === base64) {
+          setImmediate(cleanUp);
+          res(e.data);
+        }
+      };
+
+      const reject = (e) => {
+        if (e.tracker === base64) {
+          setImmediate(cleanUp);
+          rej(e.data);
+        }
+      };
+
+      worker.on("message", resolve);
+      worker.on("error", reject);
+      worker.on("exit", (code) => {
         if (code !== 0) {
+          setImmediate(cleanUp);
           reject(new Error(`Worker stopped with exit code ${code}`));
         }
       });
@@ -20,22 +61,27 @@ if (isMainThread) {
   const tf = require("@tensorflow/tfjs-core");
   require("@tensorflow/tfjs-backend-wasm");
 
+  const { classify } = require("tensornet");
+
   if (process.env.NODE_ENV === "production") {
     tf.enableProdMode();
   }
 
-  tf.setBackend("wasm").then(() => {
-    const { classify } = require("tensornet");
-    let error = false;
-    return classify(workerData)
-      .then((data) => {
-        parentPort.postMessage(data);
-      })
-      .catch(() => {
-        error = true;
-      })
-      .finally(() => {
-        process.exit(error ? 1 : 0);
+  tf.setBackend("wasm")
+    .then(() => {
+      parentPort.on("message", (message) => {
+        classify(message)
+          .then((ds) => {
+            parentPort.postMessage({ data: ds, tracker: message });
+          })
+          .catch((e) => {
+            console.error(e);
+            parentPort.postMessage({ data: null, tracker: message });
+          });
       });
-  });
+    })
+    .catch((e) => {
+      console.error(e);
+      process.exit(1);
+    });
 }

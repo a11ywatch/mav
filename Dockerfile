@@ -1,3 +1,19 @@
+FROM --platform=$BUILDPLATFORM rustlang/rust:nightly AS rustbuilder
+
+WORKDIR /app
+
+ENV GRPC_HOST=0.0.0.0:50053
+
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+    gcc cmake libc6 npm
+
+RUN npm install @a11ywatch/protos
+
+COPY . .
+
+RUN cargo install --no-default-features --path .
+
 FROM node:17-buster-slim AS installer 
 
 WORKDIR /usr/src/app
@@ -29,19 +45,6 @@ COPY . .
 RUN  npm run build
 RUN rm -R ./node_modules
 RUN npm install --production
-
-FROM --platform=$BUILDPLATFORM rustlang/rust:nightly AS rustbuilder
-
-WORKDIR /app
-COPY . .
-
-ENV GRPC_HOST=0.0.0.0:50053
-
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    gcc cmake libc6
-
-RUN cargo install --no-default-features --path .
 
 FROM node:17-buster-slim
 

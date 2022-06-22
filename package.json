@@ -6,10 +6,11 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only src/server.ts",
     "test": "jest",
-    "build": "tsc && tsc-alias && cp -R src/proto/*.proto dist/proto/",
+    "build": "tsc && tsc-alias",
     "start": "node dist/server.js"
   },
   "dependencies": {
+    "@a11ywatch/protos": "^0.1.2",
     "@azure/cognitiveservices-computervision": "^8.2.0",
     "@grpc/grpc-js": "1.6.2",
     "@grpc/proto-loader": "0.6.9",

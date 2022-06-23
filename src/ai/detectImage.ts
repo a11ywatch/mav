@@ -12,7 +12,7 @@ export const detectImageModel = async (
   let predictions = [];
 
   try {
-    const classification = await predict(config.img);
+    const classification = config.img && (await predict(config.img));
 
     if (classification && classification?.length) {
       predictions = classification;

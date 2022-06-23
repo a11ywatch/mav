@@ -1,11 +1,15 @@
 import { ComputerVisionClient } from "@azure/cognitiveservices-computervision";
 import { ApiKeyCredentials } from "@azure/ms-rest-js";
-import { createReadStream, writeFile, ensureFile, remove } from "fs-extra";
+import { createReadStream, writeFile, ensureFile, unlink } from "fs-extra";
 import type { ComputerVisionModels } from "@azure/cognitiveservices-computervision";
 import { base64Replacer } from "tensornet/node_modules/base64-to-tensor";
 import { URL } from "url";
 import { blacklistUrl } from "../utils/blacklist";
+import os from "os";
 
+const tempDir = os.tmpdir() ?? "/tmp";
+
+const LOG_ENABLED = process.env.COMPUTER_VISION_LOG_ENABLED;
 const key = process.env.COMPUTER_VISION_SUBSCRIPTION_KEY;
 let endpoint = process.env.COMPUTER_VISION_ENDPOINT;
 
@@ -48,12 +52,12 @@ export function computerVision(
       try {
         model = await computerVisionClient.describeImage(url, params);
       } catch (e) {
-        console.error(e);
+        LOG_ENABLED && console.error(e);
       }
     }
 
     // retry as local image.
-    if (base64 || !model) {
+    if (!model && base64) {
       const stripBase64 = base64Replacer(base64);
 
       // inline file missing alt randomized name
@@ -69,10 +73,10 @@ export function computerVision(
           baseP = `${targetPath}`;
         }
       } catch (e) {
-        console.error(e);
+        LOG_ENABLED && console.error(e);
       }
 
-      const handwrittenImagePath = `/tmp/img/${baseP}.jpg`;
+      const handwrittenImagePath = `${tempDir}/a11ywatch_mav/${baseP}.jpg`;
 
       try {
         await ensureFile(handwrittenImagePath);
@@ -87,7 +91,7 @@ export function computerVision(
           params
         );
       } catch (e) {
-        console.error(e);
+        LOG_ENABLED && console.error(e);
       }
 
       const requiresOcr =
@@ -105,7 +109,7 @@ export function computerVision(
             () => createReadStream(handwrittenImagePath)
           );
         } catch (e) {
-          console.error(e);
+          LOG_ENABLED && console.error(e);
         }
 
         if (model) {
@@ -131,7 +135,7 @@ export function computerVision(
       }
 
       try {
-        await remove(handwrittenImagePath);
+        await unlink(handwrittenImagePath);
       } catch (e) {
         console.error(e);
       }

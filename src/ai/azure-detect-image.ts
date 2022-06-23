@@ -11,10 +11,10 @@ let endpoint = process.env.COMPUTER_VISION_ENDPOINT;
 
 // make sure endpoint is clean
 if (endpoint) {
+  endpoint = endpoint.trim();
   if (!endpoint.endsWith("/")) {
     endpoint = `${endpoint}/`;
   }
-  endpoint = endpoint.trim();
 }
 
 const computerVisionClient =

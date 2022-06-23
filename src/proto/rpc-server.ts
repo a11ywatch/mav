@@ -36,6 +36,5 @@ export const killServer = async () => {
 
   server.removeService(mavProto.Mav.service);
   server.removeService(healthProto.health.HealthCheck.service);
-
   server.forceShutdown();
 };

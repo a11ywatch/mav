@@ -1,9 +1,11 @@
 import { Worker, isMainThread, parentPort } from "worker_threads";
 
 if (isMainThread) {
-  const keepAlive = process.env.TENSORFLOW_KEEP_ALIVE_TIMEOUT
-    ? Number(process.env.TENSORFLOW_KEEP_ALIVE_TIMEOUT)
-    : 2000;
+  const keepAlive = Math.max(
+    Number(process.env.TENSORFLOW_KEEP_ALIVE_TIMEOUT),
+    4000 // TODO: get estimations across platforms.
+  );
+
   let worker;
   let clearWorkerTimer;
 
@@ -35,14 +37,14 @@ if (isMainThread) {
 
       const resolve = (e) => {
         if (e.tracker === base64) {
-          setImmediate(cleanUp);
+          cleanUp();
           res(e.data);
         }
       };
 
       const reject = (e) => {
         if (e.tracker === base64) {
-          setImmediate(cleanUp);
+          cleanUp();
           rej(e.data);
         }
       };
@@ -51,7 +53,7 @@ if (isMainThread) {
       worker.on("error", reject);
       worker.on("exit", (code) => {
         if (code !== 0) {
-          setImmediate(cleanUp);
+          cleanUp();
           reject(new Error(`Worker stopped with exit code ${code}`));
         }
       });

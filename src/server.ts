@@ -1,7 +1,6 @@
 import { startGRPC } from "./proto/init";
 
-const initApp = async () => {
-  await startGRPC(); // start gRPC instantly. Models may not be loaded yet.
-};
-
-initApp();
+startGRPC().catch((e) => {
+  console.error(e);
+  process.exit(1); // exit if gRPC failed to start.
+});

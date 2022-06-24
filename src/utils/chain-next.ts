@@ -1,6 +1,6 @@
 const MIN_SCORE = 0.45;
 
-// the classification score is low and should chain to the next detection
+// the classification score is low and should chain to the next detection.
 export const chainNextClassifier = (predictions): boolean => {
   let next = !predictions?.length;
 

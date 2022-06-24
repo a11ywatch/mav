@@ -48,7 +48,7 @@ export function computerVision(
     }
     let model;
 
-    if (blacklistUrl(url)) {
+    if (!blacklistUrl(url)) {
       try {
         model = await computerVisionClient.describeImage(url, params);
       } catch (e) {

@@ -6,8 +6,8 @@ if (isMainThread) {
     process.platform === "linux"
       ? 500
       : process.platform === "win32"
-      ? 1000
-      : 800;
+      ? 700
+      : 600;
 
   // persist the TF models alive between connections [force > 4000]
   const keepAlive = Math.max(
@@ -18,18 +18,22 @@ if (isMainThread) {
   );
 
   // batch of workers to track
-  const worker = {};
+  const pool: {
+    [index: number]: {
+      worker?: Worker;
+      count: number;
+    };
+  } = {};
   let clearWorkerTimer;
   let workerIndex = 0; // track workers performing jobs total. [1 worker max 10 messages]
-  let workerTracker = 0; // track worker (messages or jobs)
 
   // the latest worker should pop
   const clearWorker = async () => {
-    if (worker[workerIndex]) {
+    if (pool[workerIndex]) {
       try {
-        await worker[workerIndex].terminate();
-        delete worker[workerIndex];
-        if (!Object.keys(worker).length) {
+        await pool[workerIndex].worker.terminate();
+        delete pool[workerIndex];
+        if (!Object.keys(pool).length) {
           workerIndex = 0; // reset worker workerIndex back to 0
         }
       } catch (e) {
@@ -40,36 +44,39 @@ if (isMainThread) {
 
   // remove workers on timeout to allow other request to re-use.
   const cleanUp = () => {
-    workerTracker = workerTracker - 1;
     clearWorkerTimer = setTimeout(clearWorker, keepAlive);
   };
 
   // predict image export
   module.exports = function predict(base64) {
-    workerTracker = workerTracker + 1;
     clearWorkerTimer && clearTimeout(clearWorkerTimer);
 
+    if (!pool[workerIndex]) {
+      pool[workerIndex] = { count: 0 };
+      pool[workerIndex].worker = new Worker(__filename);
+    }
+
+    pool[workerIndex].count = pool[workerIndex].count + 1;
+
+    const cw = pool[workerIndex].worker;
+
+    const workerID = `${workerIndex}-${pool[workerIndex].count}`;
+
     // create a new worker max (10 events per)
-    if (workerTracker === 10) {
+    if (pool[workerIndex].count === 10) {
       workerIndex = workerIndex + 1;
     }
 
-    if (!worker[workerIndex]) {
-      worker[workerIndex] = new Worker(__filename);
-    }
-
-    const cw = worker[workerIndex];
-
     return new Promise((res, rej) => {
       const resolve = (e) => {
-        if (e.tracker === base64) {
+        if (e.tracker === workerID) {
           cleanUp();
           res(e.data);
         }
       };
 
       const reject = (e) => {
-        if (e.tracker === base64) {
+        if (e.tracker === workerID) {
           cleanUp();
           rej(e.data);
         }
@@ -84,7 +91,7 @@ if (isMainThread) {
         }
       });
 
-      cw.postMessage(base64);
+      cw.postMessage({ base64, workerID });
     });
   };
 } else {
@@ -100,13 +107,15 @@ if (isMainThread) {
   tf.setBackend("wasm")
     .then(() => {
       parentPort.on("message", (message) => {
-        classify(message)
+        const { base64, workerID } = message;
+
+        classify(base64)
           .then((ds) => {
-            parentPort.postMessage({ data: ds, tracker: message });
+            parentPort.postMessage({ data: ds, tracker: workerID });
           })
           .catch((e) => {
             console.error(e);
-            parentPort.postMessage({ data: null, tracker: message });
+            parentPort.postMessage({ data: null, tracker: workerID });
           });
       });
     })

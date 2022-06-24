@@ -13,7 +13,7 @@
     "@a11ywatch/protos": "^0.1.2",
     "@azure/cognitiveservices-computervision": "^8.2.0",
     "@grpc/grpc-js": "1.6.2",
-    "@grpc/proto-loader": "0.6.9",
+    "@grpc/proto-loader": "0.6.12",
     "@tensorflow-models/coco-ssd": "2.2.2",
     "@tensorflow-models/mobilenet": "2.1.0",
     "@tensorflow/tfjs-backend-wasm": "^3.18.0",

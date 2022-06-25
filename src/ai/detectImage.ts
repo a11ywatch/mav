@@ -2,8 +2,7 @@ import { computerVision } from "./azure-detect-image";
 import { chainNextClassifier } from "../utils/chain-next";
 import { confidentCaptions } from "../utils/confidence";
 import type { ClassifyModelType, ImageConfig } from "./config";
-// @ts-ignore
-import predict from "./predict";
+import { classify } from "tensornet";
 
 // Determine the alt tag from a base64 or url
 export const detectImageModel = async (
@@ -12,7 +11,7 @@ export const detectImageModel = async (
   let predictions = [];
 
   try {
-    const classification = config.img && (await predict(config.img));
+    const classification = config.img && (await classify(config.img));
     if (classification && classification?.length) {
       predictions = classification;
     }

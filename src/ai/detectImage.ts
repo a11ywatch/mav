@@ -1,4 +1,4 @@
-import { computerVision } from "./azure-detect-image";
+import { computerVision } from "./azure/azure-detect-image";
 import { chainNextClassifier } from "../utils/chain-next";
 import { confidentCaptions } from "../utils/confidence";
 import type { ClassifyModelType, ImageConfig } from "./config";

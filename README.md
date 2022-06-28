@@ -4,10 +4,6 @@
 
 A gRPC image recognition service that uses Tensorflow and Computer Vision.
 
-## Local
-
-When running locally on a mac make sure to run `brew install pkg-config cairo pango libpng jpeg giflib librsvg` in order for canvas to have the correct native deps.
-
 ## Start
 
 ```sh

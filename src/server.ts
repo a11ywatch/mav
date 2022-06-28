@@ -1,13 +1,16 @@
+import { setBackend, enableProdMode } from "@tensorflow/tfjs-core";
 import "@tensorflow/tfjs-backend-wasm";
 import { startGRPC } from "./proto/init";
-import { setBackend, enableProdMode } from "@tensorflow/tfjs-core";
+
+if (process.env.NODE_ENV === "production") {
+  enableProdMode();
+}
 
 startGRPC()
   .then(() => {
-    if (process.env.NODE_ENV === "production") {
-      enableProdMode();
-    }
-    setBackend("wasm");
+    setBackend("wasm").catch((e) => {
+      console.warn("Wasm backend error:", e);
+    });
   })
   .catch((e) => {
     console.error(e);

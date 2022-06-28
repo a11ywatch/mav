@@ -1,6 +1,6 @@
 # Mav
 
-[![A11yWatch](https://circleci.com/gh/A11yWatch/mav.svg?style=svg)](https://circleci.com/gh/A11yWatch/mav)[![Maintainability](https://api.codeclimate.com/v1/badges/72068a1ff5c0f5248432/maintainability)](https://codeclimate.com/github/A11yWatch/mav/maintainability)[![codecov](https://codecov.io/gh/A11yWatch/mav/branch/master/graph/badge.svg?token=MBV2LGQO3J)](https://codecov.io/gh/A11yWatch/mav)
+[![A11yWatch](https://circleci.com/gh/a11ywatch/mav.svg?style=svg)](https://circleci.com/gh/a11ywatch/mav)[![Maintainability](https://api.codeclimate.com/v1/badges/72068a1ff5c0f5248432/maintainability)](https://codeclimate.com/github/A11yWatch/mav/maintainability)[![codecov](https://codecov.io/gh/a11ywatch/mav/branch/master/graph/badge.svg?token=MBV2LGQO3J)](https://codecov.io/gh/a11ywatch/mav)
 
 A gRPC image recognition service that uses Tensorflow and Computer Vision.
 

@@ -1,5 +1,5 @@
 import type { ComputerVisionModels } from "@azure/cognitiveservices-computervision";
-import { base64Replacer } from "tensornet/node_modules/base64-to-tensor";
+import { base64Replacer } from "base64-to-tensor";
 import { blacklistUrl } from "../../utils/blacklist";
 import { logError } from "./log";
 import { computerVisionClient, params } from "./client";

@@ -11,7 +11,7 @@
     "pub": "tsc && tsc-alias && cp package.json dist && cp package-lock.json dist && cp README.md dist && cp LICENSE dist && cd dist && npm publish"
   },
   "dependencies": {
-    "@a11ywatch/protos": "^0.1.2",
+    "@a11ywatch/protos": "^0.1.5",
     "@azure/cognitiveservices-computervision": "^8.2.0",
     "@grpc/grpc-js": "1.6.7",
     "@grpc/proto-loader": "0.6.12",

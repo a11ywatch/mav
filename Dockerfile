@@ -14,7 +14,7 @@ COPY . .
 
 RUN cargo install --no-default-features --path .
 
-FROM node:18.4-buster-slim AS installer 
+FROM node:18.5.0-buster-slim AS installer 
 
 WORKDIR /usr/src/app
 
@@ -29,7 +29,7 @@ COPY package*.json ./
 
 RUN npm ci
 
-FROM node:18.4-buster-slim AS builder 
+FROM node:18.5.0-buster-slim AS builder 
 
 WORKDIR /usr/src/app
 
@@ -46,7 +46,7 @@ RUN  npm run build
 RUN rm -R ./node_modules
 RUN npm install --production
 
-FROM node:18.4-buster-slim
+FROM node:18.5.0-buster-slim
 
 WORKDIR /usr/src/app
 

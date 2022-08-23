@@ -14,7 +14,7 @@ COPY . .
 
 RUN cargo install --no-default-features --path .
 
-FROM node:18.4-buster-slim
+FROM node:18-buster-slim
 
 WORKDIR /usr/src/app
 

@@ -1,12 +1,11 @@
-FROM --platform=$BUILDPLATFORM rustlang/rust:nightly AS rustbuilder
+FROM --platform=$BUILDPLATFORM rust:alpine3.15 AS rustbuilder
 
 WORKDIR /app
 
 ENV GRPC_HOST=0.0.0.0:50053
 
-RUN apt-get update \
-    && apt-get install -y --no-install-recommends \
-    gcc cmake libc6 npm
+RUN apk upgrade --update-cache --available && \
+	apk add npm gcc cmake make g++
 
 RUN npm install @a11ywatch/protos
 
@@ -14,19 +13,9 @@ COPY . .
 
 RUN cargo install --no-default-features --path .
 
-FROM node:18.7-buster-slim
+FROM node:18.8.0-alpine
 
 WORKDIR /usr/src/app
-
-# todo MULTI STAGE BUILD
-RUN apt-get update && \ 
-	apt-get install -y build-essential \
-	wget \
-	bash \
-	python3 \
-    pkg-config \
-	make \
-	gcc
 
 COPY package*.json ./
 

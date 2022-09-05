@@ -1,8 +1,8 @@
+import { classify } from "tensornet";
 import { computerVision } from "./azure/azure-detect-image";
 import { chainNextClassifier } from "../utils/chain-next";
 import { confidentCaptions } from "../utils/confidence";
 import type { ClassifyModelType, ImageConfig } from "./config";
-import { classify } from "tensornet";
 
 // Determine the alt tag from a base64 or url
 export const detectImageModel = async (

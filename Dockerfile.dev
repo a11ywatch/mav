@@ -13,7 +13,7 @@ COPY . .
 
 RUN cargo install --no-default-features --path .
 
-FROM node:18.8.0-alpine
+FROM node:18.10-alpine
 
 WORKDIR /usr/src/app
 

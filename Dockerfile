@@ -13,7 +13,7 @@ COPY . .
 
 RUN cargo install --no-default-features --path .
 
-FROM node:18.8.0-alpine AS installer 
+FROM node:18.10-alpine AS installer 
 
 WORKDIR /usr/src/app
 
@@ -21,7 +21,7 @@ COPY package*.json ./
 
 RUN npm ci
 
-FROM node:18.8.0-alpine AS builder 
+FROM node:18.10-alpine AS builder 
 
 WORKDIR /usr/src/app
 
@@ -31,7 +31,7 @@ RUN  npm run build
 RUN rm -R ./node_modules
 RUN npm install --production
 
-FROM node:18.8.0-alpine
+FROM node:18.10-alpine
 
 WORKDIR /usr/src/app
 

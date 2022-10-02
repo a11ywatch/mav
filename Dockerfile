@@ -1,11 +1,11 @@
-FROM --platform=$BUILDPLATFORM rust:alpine3.15 AS rustbuilder
+FROM rust:alpine AS rustbuilder
 
 WORKDIR /app
 
 ENV GRPC_HOST=0.0.0.0:50053
 
 RUN apk upgrade --update-cache --available && \
-	apk add npm gcc cmake make g++
+	apk add npm gcc cmake make g++ protoc protobuf-dev
 
 RUN npm install @a11ywatch/protos
 
@@ -13,7 +13,7 @@ COPY . .
 
 RUN cargo install --no-default-features --path .
 
-FROM node:18.10-alpine AS installer 
+FROM node:19.0-alpine AS installer 
 
 WORKDIR /usr/src/app
 
@@ -21,7 +21,7 @@ COPY package*.json ./
 
 RUN npm ci
 
-FROM node:18.10-alpine AS builder 
+FROM node:19.0-alpine AS builder 
 
 WORKDIR /usr/src/app
 
@@ -31,7 +31,7 @@ RUN  npm run build
 RUN rm -R ./node_modules
 RUN npm install --production
 
-FROM node:18.10-alpine
+FROM node:19.0-alpine
 
 WORKDIR /usr/src/app
 

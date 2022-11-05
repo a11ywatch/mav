@@ -18,7 +18,7 @@
     "@tensorflow-models/coco-ssd": "2.2.2",
     "@tensorflow-models/mobilenet": "2.1.0",
     "@tensorflow/tfjs-backend-wasm": "3.20.0",
-    "@tensorflow/tfjs-converter": "3.20.0",
+    "@tensorflow/tfjs-converter": "3.21.0",
     "@tensorflow/tfjs-core": "3.20.0",
     "base64-to-tensor": "^1.2.8",
     "tensornet": "1.0.14",

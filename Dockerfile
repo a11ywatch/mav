@@ -13,7 +13,7 @@ COPY . .
 
 RUN cargo install --no-default-features --path .
 
-FROM node:19.0-alpine AS installer 
+FROM node:19.1-alpine AS installer 
 
 WORKDIR /usr/src/app
 
@@ -21,7 +21,7 @@ COPY package*.json ./
 
 RUN npm ci
 
-FROM node:19.0-alpine AS builder 
+FROM node:19.1-alpine AS builder 
 
 WORKDIR /usr/src/app
 
@@ -31,12 +31,14 @@ RUN  npm run build
 RUN rm -R ./node_modules
 RUN npm install --production
 
-FROM node:19.0-alpine
+FROM node:19.1-alpine
 
 WORKDIR /usr/src/app
 
 COPY --from=builder /usr/src/app/dist ./dist
 COPY --from=builder /usr/src/app/node_modules ./node_modules
 COPY --from=rustbuilder /usr/local/cargo/bin/health_client /usr/local/bin/health_client
+
+EXPOSE 50053
 
 CMD [ "node", "--no-experimental-fetch", "./dist/server.js"]

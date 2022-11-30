@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/mav",
-  "version": "0.5.3",
+  "version": "0.5.4",
   "description": "a gRPC image recognition service",
   "main": "./server.js",
   "scripts": {
@@ -8,18 +8,18 @@
     "test": "jest",
     "build": "tsc && tsc-alias",
     "start": "node dist/server.js",
-    "pub": "tsc && tsc-alias && cp package.json dist && cp package-lock.json dist && cp README.md dist && cp LICENSE dist && cd dist && npm publish"
+    "pub": "tsc && tsc-alias && cp package.json dist && cp yarn.lock dist && cp README.md dist && cp LICENSE dist && cd dist && npm publish"
   },
   "dependencies": {
-    "@a11ywatch/protos": "^0.3.3",
+    "@a11ywatch/protos": "^0.3.6",
     "@azure/cognitiveservices-computervision": "^8.2.0",
     "@grpc/grpc-js": "1.7.3",
     "@grpc/proto-loader": "0.7.3",
     "@tensorflow-models/coco-ssd": "2.2.2",
     "@tensorflow-models/mobilenet": "2.1.0",
-    "@tensorflow/tfjs-backend-wasm": "3.20.0",
-    "@tensorflow/tfjs-converter": "3.20.0",
-    "@tensorflow/tfjs-core": "3.20.0",
+    "@tensorflow/tfjs-backend-wasm": "4.1.0",
+    "@tensorflow/tfjs-converter": "4.1.0",
+    "@tensorflow/tfjs-core": "4.1.0",
     "base64-to-tensor": "^1.2.8",
     "tensornet": "1.0.14",
     "jpeg-js": "^0.4.4"

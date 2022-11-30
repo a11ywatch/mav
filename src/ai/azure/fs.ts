@@ -1,5 +1,5 @@
-import { logError } from "./log";
 import { URL } from "url";
+import { logError } from "./log";
 
 // randomized name. TODO: remove
 export const randomFileName = (url: string) => {

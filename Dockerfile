@@ -7,31 +7,31 @@ ENV GRPC_HOST=0.0.0.0:50053
 RUN apk upgrade --update-cache --available && \
 	apk add npm gcc cmake make g++ protoc protobuf-dev
 
-RUN npm install @a11ywatch/protos
+RUN npm i @a11ywatch/protos
 
 COPY . .
 
 RUN cargo install --no-default-features --path .
 
-FROM node:19.1-alpine AS installer 
+FROM node:19.2-alpine AS installer 
 
 WORKDIR /usr/src/app
 
-COPY package*.json ./
+COPY package*.json yarn.lock ./
 
-RUN npm ci
+RUN yarn install --frozen-lockfile
 
-FROM node:19.1-alpine AS builder 
+FROM node:19.2-alpine AS builder 
 
 WORKDIR /usr/src/app
 
 COPY --from=installer /usr/src/app/node_modules ./node_modules
 COPY . .
-RUN  npm run build
+RUN  yarn build
 RUN rm -R ./node_modules
-RUN npm install --production
+RUN yarn install --production
 
-FROM node:19.1-alpine
+FROM node:19.2-alpine
 
 WORKDIR /usr/src/app
 

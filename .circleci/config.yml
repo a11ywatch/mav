@@ -4,20 +4,20 @@ orbs:
 jobs:
   mav:
     docker:
-      - image: cimg/node:17.3.0
+      - image: cimg/node:19.2.0
     steps:
       - checkout
       - restore_cache:
           keys:
-            - node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+            - node-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
             - node-v1-{{ .Branch }}-
             - node-v1-
       - run:
-          command: npm ci && npm test
+          command: yarn install --frozen-lockfile && npm test
       - save_cache:
           paths:
             - ~/usr/local/lib/node_modules
-          key: node-v1-{{ .Branch }}-{{ checksum "package-lock.json" }}
+          key: node-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - codecov/upload:
           file: "./coverage/clover.xml"
 

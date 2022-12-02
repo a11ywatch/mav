@@ -23,6 +23,7 @@ export const computerVisionClient =
       )
     : null;
 
-export const params: ComputerVisionModels.ComputerVisionClientAnalyzeImageOptionalParams = {
-  visualFeatures: ["Description"],
-};
+export const params: ComputerVisionModels.ComputerVisionClientAnalyzeImageOptionalParams =
+  {
+    visualFeatures: ["Description"],
+  };

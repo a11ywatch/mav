@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/mav",
-  "version": "0.5.5",
+  "version": "0.5.9",
   "description": "a gRPC image recognition service",
   "main": "./server.js",
   "scripts": {
@@ -8,6 +8,7 @@
     "test": "jest",
     "build": "tsc && tsc-alias",
     "start": "node dist/server.js",
+    "fix": "prettier --write '**/*.{js,jsx,ts,tsx}'",
     "pub": "tsc && tsc-alias && cp package.json dist && cp yarn.lock dist && cp README.md dist && cp LICENSE dist && cd dist && npm publish"
   },
   "dependencies": {
@@ -21,8 +22,8 @@
     "@tensorflow/tfjs-converter": "4.1.0",
     "@tensorflow/tfjs-core": "4.1.0",
     "base64-to-tensor": "^1.2.8",
-    "tensornet": "1.0.14",
-    "jpeg-js": "^0.4.4"
+    "jpeg-js": "^0.4.4",
+    "tensornet": "1.0.14"
   },
   "devDependencies": {
     "@swc/core": "^1.2.197",

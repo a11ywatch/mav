@@ -27,11 +27,13 @@ WORKDIR /usr/src/app
 
 COPY --from=installer /usr/src/app/node_modules ./node_modules
 COPY . .
-
 RUN yarn build && rm -R ./node_modules && yarn install --production
 
-
 FROM node:19.2-alpine
+
+RUN apk upgrade --update-cache --available && \
+	apk add openssl && \
+    rm -rf /var/cache/apk/*
 
 WORKDIR /usr/src/app
 

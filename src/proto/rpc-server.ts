@@ -1,15 +1,24 @@
 import { Server, ServerCredentials } from "@grpc/grpc-js";
-import { getProto } from "./loader";
 import { detectImageModel } from "@app/ai";
-import { GRPC_PORT, GRPC_HOST } from "../config/rpc";
+import { getProto } from "./loader";
+import { GRPC_HOST } from "../config/rpc";
 
 let server: Server;
+
+const SSL_ENABLED = process.env.SSL_ENABLED;
+const SSL_CHANNEL_NAME = process.env.SSL_CHANNEL_NAME;
 
 export const createServer = async () => {
   const mavProto = await getProto();
   const healthProto = await getProto("/health.proto");
 
-  server = new Server();
+  server = new Server(
+    SSL_CHANNEL_NAME
+      ? {
+          "grpc.ssl_target_name_override": SSL_CHANNEL_NAME,
+        }
+      : undefined
+  );
 
   server.addService(healthProto.health.HealthCheck.service, {
     check: (_call, callback) => {
@@ -24,10 +33,16 @@ export const createServer = async () => {
     },
   });
 
-  server.bindAsync(GRPC_HOST, ServerCredentials.createInsecure(), () => {
-    server.start();
-    console.log(`gRPC server running at http://127.0.0.1:${GRPC_PORT}`);
-  });
+  server.bindAsync(
+    GRPC_HOST,
+    SSL_ENABLED
+      ? ServerCredentials.createSsl(null, [], false)
+      : ServerCredentials.createInsecure(),
+    () => {
+      server.start();
+      console.log(`gRPC server running at ${GRPC_HOST}`);
+    }
+  );
 };
 
 export const killServer = async () => {

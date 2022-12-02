@@ -19,6 +19,10 @@ WORKDIR /usr/src/app
 
 COPY package*.json yarn.lock ./
 
+RUN apk upgrade --update-cache --available && \
+	apk add openssl && \
+    rm -rf /var/cache/apk/*
+
 RUN yarn install --frozen-lockfile
 
 COPY . .

@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@a11ywatch/protos@^0.3.6":
-  version "0.3.6"
-  resolved "https://registry.yarnpkg.com/@a11ywatch/protos/-/protos-0.3.6.tgz#bc7259651be373ac85128c0b5098acd56c15eada"
-  integrity sha512-wr0YgW/la+wo5Ovn8AvePErkbC5tFokGgPjkZa9ZQRTFJH4JmNHVaQ0kUcyrQSksw+WyqUFs1bsz17P4PbSHow==
+"@a11ywatch/protos@^0.3.11":
+  version "0.3.11"
+  resolved "https://registry.yarnpkg.com/@a11ywatch/protos/-/protos-0.3.11.tgz#8de1e77b0405cde88df1521fe8ba012df3815cf0"
+  integrity sha512-P7anGXfHQL3IeG8yNG2knor1lDE1F+fLF3y7qnLNbB2iDhrIghQn8QIa6KvY/IddbEq3ZPauROzkvCIdI3QjQQ==
 
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"

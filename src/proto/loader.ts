@@ -6,6 +6,9 @@ import type {
   ServiceClientConstructor,
   ProtobufTypeDefinition,
 } from "@grpc/grpc-js";
+import { getNodeModulesPath } from "@a11ywatch/website-source-builder/dist/node-path";
+
+let nodePath = null;
 
 type GRPC = GrpcObject | ServiceClientConstructor | ProtobufTypeDefinition;
 
@@ -22,15 +25,27 @@ export interface Service {
 }
 
 export const getProto = async (
-  target = "/mav.proto"
+  target = "/mav.proto",
+  retry?: boolean
 ): Promise<Service & GRPC> => {
-  const packageDef = await load(`node_modules/@a11ywatch/protos${target}`, {
-    keepCase: true,
-    longs: String,
-    enums: String,
-    defaults: true,
-    oneofs: true,
-  });
+  try {
+    const packageDef = await load(`${nodePath || "./node_modules"}/@a11ywatch/protos${target}`, {
+      keepCase: true,
+      longs: String,
+      enums: String,
+      defaults: true,
+      oneofs: true,
+    });
 
-  return loadPackageDefinition(packageDef);
+    return loadPackageDefinition(packageDef);
+  } catch (e) {
+    if(!nodePath) {
+      nodePath = getNodeModulesPath();
+    }
+    if (!retry) {
+      return await getProto(target, true);
+    } else {
+      console.error(e);
+    }
+  }
 };

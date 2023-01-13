@@ -2,10 +2,10 @@
 # yarn lockfile v1
 
 
-"@a11ywatch/protos@^0.3.12":
-  version "0.3.12"
-  resolved "https://registry.yarnpkg.com/@a11ywatch/protos/-/protos-0.3.12.tgz#249d17a20fa0dc7fdbf1a23f4a2250b8f4cbf054"
-  integrity sha512-SozJgq5RdZ6idl7ovo7vzJpggYYQ0L6X/okW8ZQi3nBpXc7vnSowh7NIzpe8o5j+X4yf1aiAD9b5vHSaaKwbcQ==
+"@a11ywatch/protos@^0.3.15":
+  version "0.3.15"
+  resolved "https://registry.yarnpkg.com/@a11ywatch/protos/-/protos-0.3.15.tgz#55f53c60e7b7e14ab1048f62739f048b1cbbb71b"
+  integrity sha512-QMtsOPoAz0lcgX0lnBEfArNjNCNMPwjakrzJr5UlUQ5qYCg2cppliONktqPhvFGupPjWjTS6NEX7JslIo8UflQ==
 
 "@a11ywatch/website-source-builder@^0.0.37":
   version "0.0.37"
@@ -339,10 +339,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@grpc/grpc-js@1.8.1":
-  version "1.8.1"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.8.1.tgz#71f809c148e52ac9c15da4b8d4a65ecd7063dff7"
-  integrity sha512-mdqYADWl/9Kb75XLstt6pvBnS1DpxSDFRKrbadkY1ymUd29hq49nP6tLcL7a7qLydgqFCpjNwa2RsyrqB3MsXA==
+"@grpc/grpc-js@1.8.4":
+  version "1.8.4"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.8.4.tgz#316674e8905e2dd310d8aa60331e05b32584e6ad"
+  integrity sha512-oaETBotls7FTBpySg5dhyUCyXSxSeCMmkBBXHXG1iw57MiNoB6D7VRhkrXYbwyHM3Q3Afjp4KlsBX0Zb+ELZXw==
   dependencies:
     "@grpc/proto-loader" "^0.7.0"
     "@types/node" ">=12.12.47"

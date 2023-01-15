@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/mav",
-  "version": "0.5.13",
+  "version": "0.5.14",
   "description": "a gRPC image recognition service",
   "main": "./server.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "url": "git+https://github.com/a11ywatch/mav.git"
   },
   "dependencies": {
-    "@a11ywatch/protos": "^0.3.15",
+    "@a11ywatch/protos": "^0.3.16",
     "@a11ywatch/website-source-builder": "^0.0.37",
     "@azure/cognitiveservices-computervision": "^8.2.0",
     "@grpc/grpc-js": "1.8.4",

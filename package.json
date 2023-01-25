@@ -25,7 +25,7 @@
     "@tensorflow-models/mobilenet": "2.1.0",
     "@tensorflow/tfjs-backend-wasm": "4.1.0",
     "@tensorflow/tfjs-converter": "4.1.0",
-    "@tensorflow/tfjs-core": "4.1.0",
+    "@tensorflow/tfjs-core": "4.2.0",
     "base64-to-tensor": "^1.2.8",
     "jpeg-js": "^0.4.4",
     "tensornet": "1.0.14"

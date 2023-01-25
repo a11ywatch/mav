@@ -2,15 +2,15 @@
 # yarn lockfile v1
 
 
-"@a11ywatch/protos@^0.3.16":
-  version "0.3.16"
-  resolved "https://registry.yarnpkg.com/@a11ywatch/protos/-/protos-0.3.16.tgz#0c1ca00077c576c1521a6cb0e705fb203be3a107"
-  integrity sha512-+Pp8a3wsm6o/QtqCr/GcP27JJYb+4XPVii1aKxtSYeNGs0XTwULJ7m1cdYg4U91NVZgNyQ2Z392zo8m5wMLztA==
+"@a11ywatch/protos@^0.4.3":
+  version "0.4.3"
+  resolved "https://registry.yarnpkg.com/@a11ywatch/protos/-/protos-0.4.3.tgz#af390f87c874d9caaeece7d234a8509cfe3770b0"
+  integrity sha512-yrCueJOdo6lrVPB/YtUJHyZF+pkIIDT76VE/c6T/u+tdwJLnbmHhhwQiKCks0btYmX0P3PDo0AIl4PFb3Zp75w==
 
-"@a11ywatch/website-source-builder@^0.0.37":
-  version "0.0.37"
-  resolved "https://registry.yarnpkg.com/@a11ywatch/website-source-builder/-/website-source-builder-0.0.37.tgz#96d5a9dae2dfe184ad5d7a3f554d9ffba0d6f911"
-  integrity sha512-YKw2nYq9RvUrTXEjoD5emRJsHCtYuX1fdHvX9mtqKg2vR85OMRLJSGMbV/kHCkpWWcK/VtOlollG51OcSSfqpA==
+"@a11ywatch/website-source-builder@^0.1.8":
+  version "0.1.8"
+  resolved "https://registry.yarnpkg.com/@a11ywatch/website-source-builder/-/website-source-builder-0.1.8.tgz#646f6231fb207b4daf230c9a00aa84fc78314327"
+  integrity sha512-QK+lL6PB+NosUlJQ9Y5mToQu0I7LoAL1w1+8DctPr5jNH2i6tEuMzzl3Ko9DexqEp/dADBaWc929a39gSlT8Zw==
 
 "@ampproject/remapping@^2.1.0":
   version "2.2.0"
@@ -339,10 +339,10 @@
     exec-sh "^0.3.2"
     minimist "^1.2.0"
 
-"@grpc/grpc-js@1.8.4":
-  version "1.8.4"
-  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.8.4.tgz#316674e8905e2dd310d8aa60331e05b32584e6ad"
-  integrity sha512-oaETBotls7FTBpySg5dhyUCyXSxSeCMmkBBXHXG1iw57MiNoB6D7VRhkrXYbwyHM3Q3Afjp4KlsBX0Zb+ELZXw==
+"@grpc/grpc-js@1.8.7":
+  version "1.8.7"
+  resolved "https://registry.yarnpkg.com/@grpc/grpc-js/-/grpc-js-1.8.7.tgz#2154fc0134462ad45f4134e8b54682a25ed05956"
+  integrity sha512-dRAWjRFN1Zy9mzPNLkFFIWT8T6C9euwluzCHZUKuhC+Bk3MayNPcpgDRyG+sg+n2sitEUySKxUynirVpu9ItKw==
   dependencies:
     "@grpc/proto-loader" "^0.7.0"
     "@types/node" ">=12.12.47"

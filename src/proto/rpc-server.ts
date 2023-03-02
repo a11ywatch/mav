@@ -1,5 +1,5 @@
 import { Server, ServerCredentials } from "@grpc/grpc-js";
-import { detectImageModel } from "@app/ai";
+import { detectImageModel } from "../ai";
 import { getProto } from "./loader";
 import { GRPC_HOST } from "../config/rpc";
 

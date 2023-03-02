@@ -1,15 +1,15 @@
 {
   "name": "@a11ywatch/mav",
-  "version": "0.7.13",
+  "version": "0.7.15",
   "description": "a gRPC image recognition service",
   "main": "./server.js",
   "scripts": {
-    "dev": "ts-node-dev --transpile-only -r tsconfig-paths/register src/server.ts",
+    "dev": "ts-node-dev --transpile-only src/server.ts",
     "test": "jest",
-    "build": "tsc && tsc-alias",
+    "build": "tsc",
     "start": "node dist/server.js",
     "fix": "prettier --write '**/*.{js,jsx,ts,tsx}'",
-    "pub": "tsc && tsc-alias && cp package.json dist && cp yarn.lock dist && cp README.md dist && cp LICENSE dist && cd dist && npm publish"
+    "pub": "tsc && cp package.json dist && cp yarn.lock dist && cp README.md dist && cp LICENSE dist && cd dist && npm publish"
   },
   "repository": {
     "type": "git",
@@ -37,9 +37,7 @@
     "jest": "^26.4.2",
     "prettier": "^2.0.5",
     "ts-node-dev": "1.1.6",
-    "tsc-alias": "1.6.3",
-    "tsconfig-paths": "^3.9.0",
-    "typescript": "4.7.2"
+    "typescript": "^4.7.2"
   },
   "jest": {
     "moduleNameMapper": {

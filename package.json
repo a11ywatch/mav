@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/mav",
-  "version": "0.7.16",
+  "version": "0.7.18",
   "description": "a gRPC image recognition service",
   "main": "./server.js",
   "scripts": {
@@ -20,13 +20,13 @@
     "@a11ywatch/website-source-builder": "^0.1.8",
     "@azure/cognitiveservices-computervision": "^8.2.0",
     "@azure/ms-rest-js": "2.6.4",
-    "@grpc/grpc-js": "1.8.8",
-    "@grpc/proto-loader": "0.7.4",
+    "@grpc/grpc-js": "1.9.0",
+    "@grpc/proto-loader": "0.7.8",
     "@tensorflow-models/coco-ssd": "2.2.2",
-    "@tensorflow-models/mobilenet": "2.1.0",
-    "@tensorflow/tfjs-backend-wasm": "4.1.0",
-    "@tensorflow/tfjs-converter": "4.1.0",
-    "@tensorflow/tfjs-core": "4.1.0",
+    "@tensorflow-models/mobilenet": "2.1.1",
+    "@tensorflow/tfjs-backend-wasm": "4.10.0",
+    "@tensorflow/tfjs-converter": "4.10.0",
+    "@tensorflow/tfjs-core": "4.10.0",
     "base64-to-tensor": "^1.2.8",
     "jpeg-js": "^0.4.4",
     "tensornet": "1.0.14"

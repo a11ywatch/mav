@@ -13,7 +13,7 @@ jobs:
             - node-v1-{{ .Branch }}-
             - node-v1-
       - run:
-          command: yarn install --frozen-lockfile && npm test
+          command: yarn install && npm test
       - save_cache:
           paths:
             - ~/usr/local/lib/node_modules

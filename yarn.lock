@@ -17,17 +17,15 @@ __metadata:
     "@grpc/proto-loader": 0.7.8
     "@swc/core": ^1.2.197
     "@swc/jest": ^0.2.21
-    "@tensorflow-models/coco-ssd": 2.2.2
-    "@tensorflow-models/mobilenet": 2.1.1
-    "@tensorflow/tfjs-backend-wasm": 4.10.0
-    "@tensorflow/tfjs-converter": 4.10.0
-    "@tensorflow/tfjs-core": 4.10.0
+    "@tensorflow/tfjs-backend-wasm": ^4.9.0
+    "@tensorflow/tfjs-converter": ^4.9.0
+    "@tensorflow/tfjs-core": ^4.9.0
     "@types/jest": ^28.1.1
-    base64-to-tensor: ^1.2.8
+    base64-to-tensor: ^1.2.12
     jest: ^26.4.2
     jpeg-js: ^0.4.4
     prettier: ^2.0.5
-    tensornet: 1.0.14
+    tensornet: ^1.0.17
     ts-node-dev: 1.1.6
     typescript: ^4.7.2
   languageName: unknown
@@ -1111,26 +1109,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tensorflow-models/coco-ssd@npm:2.2.2, @tensorflow-models/coco-ssd@npm:^2.2.2":
-  version: 2.2.2
-  resolution: "@tensorflow-models/coco-ssd@npm:2.2.2"
-  peerDependencies:
-    "@tensorflow/tfjs-converter": ^3.3.0
-    "@tensorflow/tfjs-core": ^3.3.0
-  checksum: 3ec4fade895a0151ac36db2086af4ac1dc957e2ac5b1b586a1c4182ba8f583f759bc82d093372a8731eb92dfb645ae3f3c471755b788e5e1ae9e2a66a4c6f942
-  languageName: node
-  linkType: hard
-
-"@tensorflow-models/mobilenet@npm:2.1.1, @tensorflow-models/mobilenet@npm:^2.1.0":
-  version: 2.1.1
-  resolution: "@tensorflow-models/mobilenet@npm:2.1.1"
-  peerDependencies:
-    "@tensorflow/tfjs-converter": ^4.9.0
-    "@tensorflow/tfjs-core": ^4.9.0
-  checksum: cf2fb42aafacc8feaa4cd4603233ace6e56f76af1da7b044d4c1571488142278abb4eb4fca83c03fafc409be0e007c17a3afc25421e06e35679ff0d5625e1239
-  languageName: node
-  linkType: hard
-
 "@tensorflow/tfjs-backend-cpu@npm:4.10.0":
   version: 4.10.0
   resolution: "@tensorflow/tfjs-backend-cpu@npm:4.10.0"
@@ -1143,7 +1121,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tensorflow/tfjs-backend-wasm@npm:4.10.0":
+"@tensorflow/tfjs-backend-wasm@npm:^4.9.0":
   version: 4.10.0
   resolution: "@tensorflow/tfjs-backend-wasm@npm:4.10.0"
   dependencies:
@@ -1155,7 +1133,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tensorflow/tfjs-converter@npm:4.10.0":
+"@tensorflow/tfjs-converter@npm:^4.9.0":
   version: 4.10.0
   resolution: "@tensorflow/tfjs-converter@npm:4.10.0"
   peerDependencies:
@@ -1164,16 +1142,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@tensorflow/tfjs-converter@npm:^3.18.0":
-  version: 3.21.0
-  resolution: "@tensorflow/tfjs-converter@npm:3.21.0"
-  peerDependencies:
-    "@tensorflow/tfjs-core": 3.21.0
-  checksum: b31e010f53ba860fa852376ad50ed9ef66ecd940e59620c47e127c1a1dc9b0c0fd748e5c691e7066c117d97f4bd4cd47201c02c92ad5f10f26e5541426cabb4a
-  languageName: node
-  linkType: hard
-
-"@tensorflow/tfjs-core@npm:4.10.0":
+"@tensorflow/tfjs-core@npm:^4.9.0":
   version: 4.10.0
   resolution: "@tensorflow/tfjs-core@npm:4.10.0"
   dependencies:
@@ -1736,12 +1705,13 @@ __metadata:
   languageName: node
   linkType: hard
 
-"base64-to-tensor@npm:^1.2.8":
-  version: 1.2.8
-  resolution: "base64-to-tensor@npm:1.2.8"
+"base64-to-tensor@npm:^1.2.12":
+  version: 1.2.12
+  resolution: "base64-to-tensor@npm:1.2.12"
   peerDependencies:
+    "@tensorflow/tfjs-converter": "*"
     "@tensorflow/tfjs-core": "*"
-  checksum: 08e2916e2bd84e428d863ebd9116bffd759c0e72a5a3b023106066b80f1103cab0adbb43a79ff789a5c40097f6f03995d130ca421b6f7ed113954efb071a71ca
+  checksum: 0e6fc8d8abecf2d6a0ef03fbed92d4cf4e4f434b287e07e40d24e6e8dc44b936c94cf933a1f45a5f2e158e3a1487f188269e45838dbf72690751e3ecfd85ed89
   languageName: node
   linkType: hard
 
@@ -5920,17 +5890,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"tensornet@npm:1.0.14":
-  version: 1.0.14
-  resolution: "tensornet@npm:1.0.14"
+"tensornet@npm:^1.0.17":
+  version: 1.0.17
+  resolution: "tensornet@npm:1.0.17"
   dependencies:
-    "@tensorflow-models/coco-ssd": ^2.2.2
-    "@tensorflow-models/mobilenet": ^2.1.0
-    "@tensorflow/tfjs-converter": ^3.18.0
-    base64-to-tensor: ^1.2.8
+    base64-to-tensor: ^1.2.12
   peerDependencies:
+    "@tensorflow/tfjs-converter": "*"
     "@tensorflow/tfjs-core": "*"
-  checksum: 8d436ec0535a6eb0ddb3eaff0b8ed4ce0a496023f14c2b9898798311ae6bb9ff6a01dcc418e632f89c8912ee407746938eb735c13bbdcb23114fffcdcb05e27b
+  checksum: ecf624da26a7fb2e51b916deb12f0a63134c93f85c23a014a8c58290c64de54df4284f2a97433f9312f005aec0078019d67ff9ab7173a27bc51af87e8d264270
   languageName: node
   linkType: hard
 

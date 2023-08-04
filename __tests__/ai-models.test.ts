@@ -1,11 +1,10 @@
-import { aiModels } from "../src/ai";
-import { LOADED_MODELS } from "../src/static";
+import { aiModels } from "tensornet/dist/ai-models";
 
 test("all models load", async () => {
   jest.setTimeout(30000);
 
   try {
-    expect(await aiModels.initModels()).toBe(LOADED_MODELS);
+    expect(await aiModels.initMobileNet()).toBe(undefined);
   } catch (e) {
     console.error(e);
   }

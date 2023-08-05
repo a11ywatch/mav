@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/mav",
-  "version": "0.7.24",
+  "version": "0.7.27",
   "description": "a gRPC image recognition service",
   "main": "./server.js",
   "scripts": {
@@ -25,9 +25,9 @@
     "@tensorflow/tfjs-backend-wasm": "^4.9.0",
     "@tensorflow/tfjs-converter": "^4.9.0",
     "@tensorflow/tfjs-core": "^4.9.0",
-    "base64-to-tensor": "^1.2.12",
-    "jpeg-js": "^0.4.4",
-    "tensornet": "^1.0.17"
+    "base64-to-tensor": "^1.2.16",
+    "sharp": "^0.32.4",
+    "tensornet": "^1.0.21"
   },
   "devDependencies": {
     "@swc/core": "^1.2.197",

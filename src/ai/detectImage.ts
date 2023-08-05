@@ -1,4 +1,4 @@
-import { classify } from "tensornet";
+import { classifyAsync } from "tensornet";
 import { computerVision } from "./azure/azure-detect-image";
 import { chainNextClassifier } from "../utils/chain-next";
 import { confidentCaptions } from "../utils/confidence";
@@ -11,7 +11,7 @@ export const detectImageModel = async (
   let predictions = [];
 
   try {
-    const classification = config.img && (await classify(config.img));
+    const classification = config.img && (await classifyAsync(config.img));
     if (classification && classification?.length) {
       predictions = classification;
     }

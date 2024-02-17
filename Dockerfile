@@ -13,7 +13,7 @@ COPY . .
 
 RUN cargo install --no-default-features --path .
 
-FROM node:20.5-alpine AS installer 
+FROM node:20.11.1-alpine AS installer 
 
 WORKDIR /usr/src/app
 
@@ -21,7 +21,7 @@ COPY package*.json yarn.lock ./
 
 RUN yarn install
 
-FROM node:20.5-alpine AS builder 
+FROM node:20.11.1-alpine AS builder 
 
 WORKDIR /usr/src/app
 
@@ -29,7 +29,7 @@ COPY --from=installer /usr/src/app/node_modules ./node_modules
 COPY . .
 RUN yarn build && rm -R ./node_modules && yarn install --production
 
-FROM node:20.5-alpine
+FROM node:20.11.1-alpine
 
 RUN apk upgrade --update-cache --available && \
 	apk add openssl && \

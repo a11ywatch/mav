@@ -1,6 +1,6 @@
 {
   "name": "@a11ywatch/mav",
-  "version": "0.7.27",
+  "version": "0.7.28",
   "description": "a gRPC image recognition service",
   "main": "./server.js",
   "scripts": {
@@ -20,7 +20,7 @@
     "@a11ywatch/website-source-builder": "^0.1.8",
     "@azure/cognitiveservices-computervision": "^8.2.0",
     "@azure/ms-rest-js": "2.6.4",
-    "@grpc/grpc-js": "1.9.0",
+    "@grpc/grpc-js": "1.10.1",
     "@grpc/proto-loader": "0.7.8",
     "@tensorflow/tfjs-backend-wasm": "^4.9.0",
     "@tensorflow/tfjs-converter": "^4.9.0",
